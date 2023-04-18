@@ -45,7 +45,7 @@ include_once 'config.php';
                                         <a class="dropdown-item" href="customer/login_reg.php">Customer</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">Company</a>
+                                        <a class="dropdown-item" href="company/login_reg.php">Company</a>
                                     </li>
                                 </ul>
                             </div>
@@ -91,48 +91,30 @@ include_once 'config.php';
                     </div>
                 </div>
                 <?php
-                include_once 'config.php';
+                include('config.php');   // include database connection
 
-                $sql  = "SELECT * FROM car";
-                $result = mysqli_query($con, $sql);
-                $check = mysqli_num_rows($result);
+                $output="";
+                $selQuery = "select * from car";
+                $exeQuery = mysqli_query($con,$selQuery);
 
-                if ($check > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $name = $row['car_name'];
-                        $car_type = $row['car_type'];
-                        $car_color = $row['car_color'];
-                        $year = $row['car_year'];
-                        $car_description = $row['car_description'];
-                        $car_mileage = $row['car_mileage'];
-                        $price = $row['car_price'];
-                        $car_image = $row['car_image'];
-                        $car_quantity = $row['car_quantity'];
-                        $company_id = $row['company_id'];
-                        $added_date = $row['added_date'];
+                $output="<div class='container'>
+            <div class='row'>";
 
-                        ?>
-                        <div class="col-md-4">
-                            <div class="product-item">
-                                <div class="card" style="min-width: 18rem; ">
-                                    <img class="card-img-top" style="height:350px;" src="<?php echo "company/img/Cars/" . $car_image; ?>" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><?php echo $name ?></h5>
-                                        <h6>Year :<?php echo $year ?></h6><br>
-                                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                } else {
-                    echo "<h1 style='color:red;size:25px; text-align:center;'></h1>
-                        <br>
-                           <br>
-      ";
-                    echo "<h1><a href='index.php'></a><h1>";
+                while($row = mysqli_fetch_array($exeQuery)) {
+                    $name = $row['car_name'];
+                    $description = $row['car_description'];
+                    $photo = $row['car_image'];
+
+                    $output.="<div class='col-sm-4'>
+           <h4 class='card-header'>$name</h4>
+           <img class='img_size' src='$photo' alt='Card image top'>
+           <p>$description</p>
+           <a href='#' class='btn btn-primary'>Buy</a>
+        </div>";
                 }
+                $output.="</div></div>";
+                echo $output;
+
                 ?>
             </div>
         </div>

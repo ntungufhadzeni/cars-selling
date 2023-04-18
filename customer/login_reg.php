@@ -19,11 +19,11 @@ if (isset($_POST['login'])) {
             if ($nor > 0) {
                 $row = mysqli_fetch_assoc($result);
                 if (password_verify($password, $row['password'])) {
-                    #header('location:../admin/admin.php');
                     $_SESSION['admin_logged']=false;
-                    $_SESSION['customer_id']= $result['customer_id'];
-                    $_SESSION['customer_id_email']= $result['customer_email'];
-                    echo "<script>alert('Welcome')</script>";
+                    $_SESSION['customer_id']= $row['customer_id'];
+                    $_SESSION['customer_name']= $row['customer_name'];
+
+                    header('location: index.php');
                     } else {
                         $error_login = true;
                         $error_msg_login = 'Password wrong';
@@ -157,7 +157,7 @@ elseif (isset($_POST['register'])){
                                 <a class="dropdown-item" href="login_reg.php">Customer</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">Company</a>
+                                <a class="dropdown-item" href="../company/login_reg.php">Company</a>
                             </li>
                         </ul>
                     </div>
@@ -216,8 +216,8 @@ elseif (isset($_POST['register'])){
                                         <label for="Email"></label><input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password<span style="color:red">*</span></label>
-                                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                                        <label for="password-login">Password<span style="color:red">*</span></label>
+                                        <input type="password" name="password" id="password-login" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="row justify-content-between">
                                         <div class="col-md-6">
@@ -377,7 +377,7 @@ elseif (isset($_POST['register'])){
     </script>
     <script type="text/javascript">
         function showPassL() {
-            let x = document.getElementById("passL");
+            let x = document.getElementById("password-login");
             if (x.type === "password") {
                 x.type = "text";
             } else {

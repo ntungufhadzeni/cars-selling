@@ -155,7 +155,7 @@ elseif (isset($_POST['register'])){
                                 <a class="dropdown-item" href="../customer/login_reg.php">Customer</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">Company</a>
+                                <a class="dropdown-item" href="../company/login_reg.php">Company</a>
                             </li>
                         </ul>
                     </div>
@@ -215,7 +215,7 @@ elseif (isset($_POST['register'])){
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Password<span style="color:red">*</span></label>
-                                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                                        <input type="password" name="password" id="password-login" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="row justify-content-between">
                                         <div class="col-md-6">
@@ -357,7 +357,7 @@ elseif (isset($_POST['register'])){
     </script>
     <script type="text/javascript">
         function showPassL() {
-            let x = document.getElementById("passL");
+            let x = document.getElementById("password-login");
             if (x.type === "password") {
                 x.type = "text";
             } else {
