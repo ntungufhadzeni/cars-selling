@@ -104,21 +104,24 @@ include_once 'config.php';
                     $name = $row['car_make'];
                     $model = $row['car_model'];
                     $description = $row['car_description'];
-                    $photo = "assets/images/cars/".$row['car_image'];
+                    $photo = "assets/images/cars/" . $row['car_image'];
                     $url = $row['company_url'];
+                    $price = $row['company_currency'] . ' ' . $row['car_price'];
                     $company_name = $row['company_name'];
                     $id = $row['car_id'];
 
-                    $output.="<div class='col-sm-4'>
-           <h4 class='card-header'>$name $model</h4>
-           <img class='img_size' width='350' height='240' src='$photo' alt='Card image top'>
-           <p>$description</p>
-           <a href='.$url.' >$company_name</a>
-           <a href='customer/car_view.php?id=".$id."' class='btn btn-primary'>Buy</a>
-        </div>";
+                    $output .= '<div class="col-sm-4">
+               <h4 class="card-header">' . $name . ' ' . $model . '</h4>
+               <img class="img_size" width="350" height="240" src="' . $photo . '" alt="Card image top">
+               <h5>' . $price . '</h5>
+               <p>' . $description . '</p>
+               <a href="' . $url . '">' . $company_name . '</a>
+               <a href="customer/car_view.php?id=' . $id . '" class="btn btn-primary">Buy</a>
+            </div>';
+                    $output .= '</div></div>';
                 }
-                $output.="</div></div>";
-                echo $output;
+
+                    echo $output;
 
                 ?>
             </div>
@@ -149,5 +152,5 @@ include_once 'config.php';
     <script src="assets/js/accordions.js"></script>
     <script src="assets/jquery/jquery.min.js"></script>
     <script src="assets/css/bootstrap/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <div style="margin-top: 50px"></div>
+<?php include('inc/footer.php');?>

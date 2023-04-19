@@ -127,7 +127,7 @@ $rs_result = mysqli_query($con,$sql);
         echo('<div class="row">');
 
         echo('<div class="col-md-2" >');
-        echo('<img class="img-circle" src='.$row['car_image'].' width="150px" height="120px">');
+        echo('<img class="img-circle" src="../assets/images/cars/'.$row['car_image'].'" width="150px" height="120px">');
         echo('</div>');
 
         echo('<div class="col-md-3" >');

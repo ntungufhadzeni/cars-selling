@@ -102,10 +102,10 @@ else{
             <div class="list-group">
                 <h3>Price</h3>
                 <div class="list-group-item">
-                    <input id="priceSlider" data-slider-id='ex1Slider' data-slider-min="20000" data-slider-max="500000" data-slider-step="10000" data-slider-value="50000"/>
-                    <div class="priceRange">20000 - 500000</div>
+                    <input id="priceSlider" data-slider-id='ex1Slider' data-slider-min="20000" data-slider-max="2000000" data-slider-step="10000" data-slider-value="50000"/>
+                    <div class="priceRange">20000 - 2000000</div>
                     <input type="hidden" id="minPrice" value="20000" />
-                    <input type="hidden" id="maxPrice" value="500000" />
+                    <input type="hidden" id="maxPrice" value="2000000" />
                 </div>
             </div>
             <div class="list-group">
