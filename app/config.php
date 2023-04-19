@@ -1,14 +1,13 @@
 <?php
-$server = "localhost";
-$user = "ntungu";
+$server = "db";
+$user = "root";
 $pass = "Nnrrr@123";
-$port = 41062;
 $db = "car";
 
-$con = mysqli_connect($server,$user,$pass,$db,$port);
+$con = mysqli_connect($server,$user,$pass, $db);
 if(!$con){
     die("Connection Error....!".mysqli_connect_error());
 }
-?>
+
 
 

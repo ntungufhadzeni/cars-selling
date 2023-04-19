@@ -94,7 +94,7 @@ include_once 'config.php';
                 include('config.php');   // include database connection
 
                 $output="";
-                $selQuery = "select * from car";
+                $selQuery = "select * from car join company on company.company_id=car.company_id";
                 $exeQuery = mysqli_query($con,$selQuery);
 
                 $output="<div class='container'>
@@ -105,12 +105,15 @@ include_once 'config.php';
                     $model = $row['car_model'];
                     $description = $row['car_description'];
                     $photo = "assets/images/cars/".$row['car_image'];
+                    $url = $row['company_url'];
+                    $company_name = $row['company_name'];
                     $id = $row['car_id'];
 
                     $output.="<div class='col-sm-4'>
            <h4 class='card-header'>$name $model</h4>
            <img class='img_size' width='350' height='240' src='$photo' alt='Card image top'>
            <p>$description</p>
+           <a href='.$url.' >$company_name</a>
            <a href='customer/car_view.php?id=".$id."' class='btn btn-primary'>Buy</a>
         </div>";
                 }

@@ -1,7 +1,7 @@
 <?php
 global $con;
-require('../config.php');
 session_start();
+require('../config.php');
 
 if (isset($_POST['login'])) {
     $error_login = false;

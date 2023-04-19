@@ -2,17 +2,17 @@
 
 class Car
 {
-    private $host = 'localhost';
-    private $user = 'ntungu';
+    private $host = 'db';
+    private $user = 'root';
     private $password = 'Nnrrr@123';
-    private $database = 'car';
     private $carTable = 'car';
-    private $port = 41062;
+
+    private $database = "car";
     private $dbConnect = false;
 
     public function __construct(){
         if(!$this->dbConnect){
-            $conn = new mysqli($this->host, $this->user, $this->password, $this->database, $this->port);
+            $conn = new mysqli($this->host, $this->user, $this->password, $this->database);
             if($conn->connect_error){
                 die('Error failed to connect to MySQL: ' . $conn->connect_error);
             } else {
@@ -72,6 +72,7 @@ alt="" class="img-responsive" >
 href="car_view.php?id='.$row['car_id'].'">'.$row['car_make'].' '. $row['car_model'] .'</a></strong></p>
 			<h4 style="text-align:center;" class="text-danger" 
 >'. $row['car_price'] .'</h4>
+            <a href='.$row['company_url'].'>'.$row['company_name'].'</a>
 			<p>Make : '. $row['car_make'].'<br />
 			Model : '. $row['car_model'] .' <br />
 			Price : '. $row['company_currency'].' '.$row['car_price'] .'<br />

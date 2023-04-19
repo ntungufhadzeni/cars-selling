@@ -3,9 +3,9 @@
 $photo_name = '';
 session_start();
 $name = '';
-if(isset($_SESSION['admin_name'])){
-    $name = $_SESSION['admin_name'];
-    $id = $_SESSION['admin_id'];
+if(!isset($_SESSION['company_name'])){
+    $name = $_SESSION['company_name'];
+    $id = $_SESSION['company_id'];
 }
 else{
     header('location: login_reg.php');
@@ -13,7 +13,6 @@ else{
 
 global $con;
 require('../config.php');
-session_start();
 function inputvalues($data) {
     $data = trim($data);
     $data = stripslashes($data);
@@ -29,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $transmission=inputvalues($_POST['transmission']);
     $enginecapacity=inputvalues($_POST['enginecapacity']);
     $fuel=inputvalues($_POST['fuel']);
-    $company=inputvalues($_POST['company']);
+    $company=$_SESSION['company_id'];
     $price=inputvalues($_POST['price']);
     $description=inputvalues($_POST['description']);
     $mileage=inputvalues($_POST['mileage']);
