@@ -1,28 +1,29 @@
 <?php
-global $con;
-include_once '../config.php';
 session_start();
 $name = '';
-if(isset($_SESSION['customer_name']) && isset($_SESSION['customer_id'])){
-    $name = $_SESSION['customer_name'];
-    $id = $_SESSION['customer_id'];
-
-    $sql = "SELECT car.car_make as make, car.car_model as model, car.car_price as price, ";
-    $sql .= "customer.customer_address as address, company.company_name as company_name, ";
-    $sql .= "orders.payment_status as payment_status, orders.delivery_status as delivery_status, ";
-    $sql .= "DATE_FORMAT(orders.date_added,'%d-%b-%Y') as date, orders.id as order_number ";
-    $sql .= "FROM orders ";
-    $sql .= "JOIN car ON car.car_id = orders.car_id ";
-    $sql .= "JOIN customer ON customer.customer_id = orders.customer_id ";
-    $sql .= "JOIN company ON car.company_id = company.company_id ";
-    $sql .= "WHERE orders.customer_id = ".$id;
-
-    $result =  mysqli_query($con, $sql);
-
+if(isset($_SESSION['admin_name'])){
+    $name = $_SESSION['admin_name'];
+    $id = $_SESSION['admin_id'];
 }
 else{
     header('location: login_reg.php');
 }
+?>
+<?php
+global $con;
+include_once '../config.php';
+
+$sql = "SELECT car.car_make as make, car.car_model as model, car.car_price as price, ";
+$sql .= "customer.customer_address as address, company.company_name as company_name, ";
+$sql .= "orders.payment_status as payment_status, orders.delivery_status as delivery_status, ";
+$sql .= "DATE_FORMAT(orders.date_added,'%d-%b-%Y') as date, orders.id as order_number ";
+$sql .= "FROM orders ";
+$sql .= "JOIN car ON car.car_id = orders.car_id ";
+$sql .= "JOIN customer ON customer.customer_id = orders.customer_id ";
+$sql .= "JOIN company ON car.company_id = company.company_id ";
+
+$result =  mysqli_query($con, $sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -51,28 +52,37 @@ else{
 <header class="">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="index.php"><h2>Hi, <em><?php echo $name ?></em></h2></a>
+            <a class="navbar-brand" href="index.php"><h2><em><?php echo $name ?></em></h2></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="index.php">Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#"> Profile
+                        <a class="nav-link" href="all_customers.php"> Customers
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="all_companies.php"> Companies
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
                         <a class="nav-link" href="orders.php"> Orders
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-
+                    <li class="nav-item ">
+                        <a class="nav-link" href="all_company_admin.php"> Company Admin
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout
                             <span class="sr-only">(current)</span>
@@ -135,7 +145,7 @@ else{
                 Delivery Status
             </th>
             <th>
-                Check Out
+                Action
             </th>
         </tr>
         </thead>
@@ -191,4 +201,4 @@ else{
         <?php }?>
     </table>
 </div>
-<?php include('../inc/footer.php');?>
+<?php include('inc/footer.php');?>

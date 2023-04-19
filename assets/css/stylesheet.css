@@ -1,0 +1,252 @@
+@charset "utf-8";
+/* CSS Document */
+
+#box-form{
+color:#000;	
+float:left;
+
+}
+#detail-title{
+font-size:24px;	
+text-transform:uppercase;
+}
+#price{
+	font-size:22px;
+}
+#form{
+	 margin-top:10px;
+}
+#form1 select,input{
+	width:200px;
+	font-family:Verdana, Geneva, sans-serif;
+	font-weight:bold;
+}
+
+.flabel-wraper{
+   width:50px;
+    float:left;
+	font-size:10px;
+	font-weight:bold;
+}
+
+.fcontrol-wraper{
+   
+    float:left;
+	font-size:9px;
+	
+}			
+#clear-sec{
+	clear:both;	
+}
+.textbox-required{
+	
+border:none;	
+}
+
+#slogan h2{
+color:#FFF;
+margin-top:10px;
+padding:5px;	
+}
+#slogan{
+background-color:#09C;
+padding:10px;	
+}
+#slogan p{
+color:#000;
+font-size:12px;	
+}
+.lg-flabel-wraper{
+	float:left;
+font-size:12px;
+font-weight:bold;
+width:60px;	
+}
+table {
+font-size:10px;	
+font-weight:bold;
+color:#000;	
+}
+
+#time-table{
+
+color:#FFF;
+font-size:24px;
+}
+
+.most_visited{
+	font-size:24px;
+	
+}
+
+
+/* product details*/
+
+#car-name
+{
+
+font-size:24px;	
+	
+}
+#modals-list{
+border:solid;
+}
+
+#modals-list div {
+	
+	border-top:solid;
+	 }
+
+
+.main-flabel-wraper{
+    margin:5px 0px;
+    width:150px;
+    float:left;
+}
+
+.main-fcontrol-wraper{
+    margin:5px 0px;
+    float:left;
+}
+.frow-wraper{
+    margin-bottom:10px;
+}
+.flabel{
+    color:#000000;
+	
+	
+font-weight:bold;
+}
+#btn-grp{
+	
+margin-top:75px;
+}
+#btn-grp a{
+	
+background-color:rgb(3, 60, 115);
+color:#FFF;
+font-weight:bold;
+}
+#saveButton{
+	
+background-color:#060;
+color:#FFF;	
+}
+#cancelButton{
+	
+border:solid thin;
+border-color:#060;
+color:#060;	
+}
+/* product details*/
+footer div h4{
+color:#FFF;	
+}
+footer div{
+color:#FFF;	
+}
+
+footer div a{
+color:#FFF;	
+}
+#section p{
+color:#FFF;	
+	
+}
+/*///////////////////////////////////////////////////////////////////////////////////////////////*/
+/* --------------------------------------
+   Carousel
+   -------------------------------------- */
+
+/*#myCarousel {
+
+	 margin-top:150px;
+	 padding:10px;
+	 
+	 background: url('../Images/cover-medium.jpg') top center no-repeat;
+    /* height: 400px; */
+/*}
+#new-arival{
+	margin:5px;
+	background:url('../Images/new.jpg')  top center no-repeat;
+	
+}*/
+.carousel-caption {
+	font-size: 24px;
+}
+
+.carousel-caption h4 {
+	font-size: 32px;
+}
+
+/*#new-arival{
+	margin:5px;
+	background:url('../Images/new-large.jpg')  top center no-repeat;
+	height:100px;
+	
+}*/
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////*/
+
+
+
+
+@media (max-width: 480px) {
+	
+	#time-table {
+		font-size: 14px;
+	}
+	
+
+	
+	
+}
+
+/* Landscape phone to portrait tablet */
+/*@media (max-width: 768px) {
+	
+	
+	
+	#myCarousel {
+		background: url('../Images/cover-small.jpg') top center no-repeat;
+	/*	height: 310px; */
+/*}
+	#new-arival{
+	margin:5px;
+	background:url('../Images/new-small.jpg')  top center no-repeat;
+	height:35px;
+	
+}*/
+	
+	
+	#time-table {
+		font-size: 16px;
+	}
+/*	#new-arival{
+	margin:5px;
+	background:url('../Images/new.jpg')  top center no-repeat;
+	
+}
+	.carousel-caption h4 {
+		font-size: 22px;
+	}
+	
+}*/
+
+/* Large desktop */
+/*@media (min-width: 1200px) {
+
+	
+	#myCarousel  {
+		background: url('../Images/cover-large.jpg') top center no-repeat;
+	/*	height: 500px; */
+/*}
+	
+#new-arival{
+	margin:5px;
+	background:url('../Images/new-large.jpg')  top center no-repeat;
+	height:100px;
+	
+}
+
+}*/

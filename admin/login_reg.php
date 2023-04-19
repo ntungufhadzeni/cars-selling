@@ -19,11 +19,10 @@ if (isset($_POST['login'])) {
             if ($nor > 0) {
                 $row = mysqli_fetch_assoc($result);
                 if (password_verify($password, $row['password'])) {
-                    #header('location:../admin/admin.php');
                     $_SESSION['admin_logged']=true;
-                    $_SESSION['admin_id']= $result['admin_id'];
-                    $_SESSION['admin_email']= $result['admin_email'];
-                    echo "<script>alert('Welcome')</script>";
+                    $_SESSION['admin_id']= $row['admin_id'];
+                    $_SESSION['admin_name'] = $row['admin_name'];
+                    header('location:index.php');
                 } else {
                     $error_login=true;
                     $error_msg_login = 'Password wrong';

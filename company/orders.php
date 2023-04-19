@@ -3,9 +3,9 @@ global $con;
 include_once '../config.php';
 session_start();
 $name = '';
-if(isset($_SESSION['customer_name']) && isset($_SESSION['customer_id'])){
-    $name = $_SESSION['customer_name'];
-    $id = $_SESSION['customer_id'];
+if(isset($_SESSION['company_name']) && isset($_SESSION['company_id'])){
+    $name = $_SESSION['company_name'];
+    $id = $_SESSION['company_id'];
 
     $sql = "SELECT car.car_make as make, car.car_model as model, car.car_price as price, ";
     $sql .= "customer.customer_address as address, company.company_name as company_name, ";
@@ -15,7 +15,7 @@ if(isset($_SESSION['customer_name']) && isset($_SESSION['customer_id'])){
     $sql .= "JOIN car ON car.car_id = orders.car_id ";
     $sql .= "JOIN customer ON customer.customer_id = orders.customer_id ";
     $sql .= "JOIN company ON car.company_id = company.company_id ";
-    $sql .= "WHERE orders.customer_id = ".$id;
+    $sql .= "WHERE company.company_id = ".$id;
 
     $result =  mysqli_query($con, $sql);
 
@@ -135,7 +135,7 @@ else{
                 Delivery Status
             </th>
             <th>
-                Check Out
+                Action
             </th>
         </tr>
         </thead>

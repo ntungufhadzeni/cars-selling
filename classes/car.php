@@ -34,7 +34,7 @@ class Car
     }
 
     public function searchCars(){
-        $sqlQuery = "SELECT * FROM ".$this->carTable;
+        $sqlQuery = "SELECT * FROM ".$this->carTable.' JOIN company ON car.company_id = company.company_id ';
         if(isset($_POST["minPrice"], $_POST["maxPrice"]) &&
             !empty($_POST["minPrice"]) && !empty($_POST["maxPrice"])){
             $minPrice = (int) $_POST["minPrice"];
@@ -47,11 +47,11 @@ class Car
             $sqlQuery .= "
 		AND car_make IN('".$makeFilterData."')";
         }
-        if(isset($_POST["model"])){
+        /*if(isset($_POST["model"])){
             $modelFilterData = implode("','", $_POST["model"]);
             $sqlQuery .= "
 		AND car_model IN('".$modelFilterData."')";
-        }
+        }*/
         if(isset($_POST["year"])) {
             $yearFilterData = implode(",", $_POST["year"]);
             $sqlQuery .= "
@@ -66,15 +66,15 @@ class Car
                 $searchResultHTML .= '
 			<div class="col-sm-4 col-lg-3 col-md-3">
 			<div class="product">
-			<img src="../assets/images/'. $row['car_image'] .'" 
+			<img src="../assets/images/cars/'. $row['car_image'] .'" 
 alt="" class="img-responsive" >
 			<p><strong><a 
-href="#">'. $row['car_model'] .'</a></strong></p>
+href="car_view.php?id='.$row['car_id'].'">'.$row['car_make'].' '. $row['car_model'] .'</a></strong></p>
 			<h4 style="text-align:center;" class="text-danger" 
 >'. $row['car_price'] .'</h4>
 			<p>Make : '. $row['car_make'].'<br />
 			Model : '. $row['car_model'] .' <br />
-			Price : '. $row['car_price'] .'<br />
+			Price : '. $row['company_currency'].' '.$row['car_price'] .'<br />
 			Year : '. $row['car_year'] .'</p>
 			</div>
 			</div>';

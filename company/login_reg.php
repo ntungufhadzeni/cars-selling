@@ -22,11 +22,16 @@ if (isset($_POST['login'])) {
             if ($nor > 0) {
                 $row = mysqli_fetch_assoc($result);
                 if (password_verify($password, $row['password'])) {
-                    #header('location:../admin/admin.php');
-                    $_SESSION['admin_logged']=false;
-                    $_SESSION['company_id']= $result['id'];
-                    $_SESSION['company_email']= $result['email'];
-                    echo "<script>alert('Welcome')</script>";
+                    if($row['company_status'] == 1){
+                        $_SESSION['admin_logged']=false;
+                        $_SESSION['company_id']= $row['id'];
+                        $_SESSION['company_name']= $row['name'];
+                        header('location: index.php');
+                    }
+                    else{
+                        $error_login = true;
+                        $error_msg_login = 'Your account has been suspended';
+                    }
                 } else {
                     $error_login = true;
                     $error_msg_login = 'Password wrong';

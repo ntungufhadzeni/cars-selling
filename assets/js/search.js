@@ -19,13 +19,13 @@ function filterSearch() {
     let minPrice = $('#minPrice').val();
     let maxPrice = $('#maxPrice').val();
     let make = getFilterData('make');
-    let model = getFilterData('model');
+    //let model = getFilterData('model');
     let year = getFilterData('year');
     $.ajax({
         url:"action.php",
         method:"POST",
         data:{action:action, minPrice: minPrice, maxPrice: maxPrice,
-            make:make, model:model, year:year},
+            make:make, year:year},
         success:function(data){
             $('.searchResult').html(data);
         },

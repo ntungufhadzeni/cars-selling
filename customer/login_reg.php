@@ -19,11 +19,17 @@ if (isset($_POST['login'])) {
             if ($nor > 0) {
                 $row = mysqli_fetch_assoc($result);
                 if (password_verify($password, $row['password'])) {
-                    $_SESSION['admin_logged']=false;
-                    $_SESSION['customer_id']= $row['customer_id'];
-                    $_SESSION['customer_name']= $row['customer_name'];
+                    if($row['customer_status'] == 1) {
+                        $_SESSION['admin_logged'] = false;
+                        $_SESSION['customer_id'] = $row['customer_id'];
+                        $_SESSION['customer_name'] = $row['customer_name'];
 
-                    header('location: index.php');
+                        header('location: index.php');
+                    }
+                    else {
+                        $error_login= true;
+                        $error_msg_login = 'Your account has been suspended';
+                    }
                     } else {
                         $error_login = true;
                         $error_msg_login = 'Password wrong';

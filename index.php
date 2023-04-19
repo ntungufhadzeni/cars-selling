@@ -101,15 +101,17 @@ include_once 'config.php';
             <div class='row'>";
 
                 while($row = mysqli_fetch_array($exeQuery)) {
-                    $name = $row['car_name'];
+                    $name = $row['car_make'];
+                    $model = $row['car_model'];
                     $description = $row['car_description'];
-                    $photo = $row['car_image'];
+                    $photo = "assets/images/cars/".$row['car_image'];
+                    $id = $row['car_id'];
 
                     $output.="<div class='col-sm-4'>
-           <h4 class='card-header'>$name</h4>
-           <img class='img_size' src='$photo' alt='Card image top'>
+           <h4 class='card-header'>$name $model</h4>
+           <img class='img_size' width='350' height='240' src='$photo' alt='Card image top'>
            <p>$description</p>
-           <a href='#' class='btn btn-primary'>Buy</a>
+           <a href='customer/car_view.php?id=".$id."' class='btn btn-primary'>Buy</a>
         </div>";
                 }
                 $output.="</div></div>";

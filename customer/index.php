@@ -4,6 +4,9 @@ $name = '';
 if(isset($_SESSION['customer_name'])){
     $name = $_SESSION['customer_name'];
 }
+else{
+    header('location: login_reg.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +42,7 @@ if(isset($_SESSION['customer_name'])){
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home
+                        <a class="nav-link" href="index.php">Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -49,7 +52,7 @@ if(isset($_SESSION['customer_name'])){
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#"> Orders
+                        <a class="nav-link" href="orders.php"> Orders
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -119,8 +122,7 @@ if(isset($_SESSION['customer_name'])){
                 }
                 ?>
             </div>
-
-            <div class="list-group">
+            <!--<div class="list-group">
                 <h3>Model</h3>
                 <?php
                 $models = $car->getModel();
@@ -133,7 +135,7 @@ if(isset($_SESSION['customer_name'])){
                     <?php
                 }
                 ?>
-            </div>
+            </div>-->
             <div class="list-group">
                 <h3>Year</h3>
                 <?php
@@ -156,4 +158,4 @@ if(isset($_SESSION['customer_name'])){
         </div>
     </div>
 </div>
-<?php include('inc/footer.php');?>
+<?php include('../inc/footer.php');?>
