@@ -224,17 +224,8 @@ $rs_result = mysqli_query($con,$sql);
         echo('</tr>');
         echo('</thead>');
         echo('<tbody>');
-
-        echo('<tr>');
         echo('<td >');
-        echo('<a href="product-details.php?id='.$row['car_id'].'" style="margin-top:10px;" class="btn  btn-primary"> More Details  </a>');
-        echo(' </td>');
-        echo('</tr>');
-        echo('<tr>');
-        echo('</tbody>');
-        echo('<tbody>');
-        echo('<td >');
-        echo('<a href="product-details.php?id='.$row['car_id'].'" style="margin-top:10px;" class="btn  btn-secondary"> Delete  </a>');
+        echo('<a href="delete_car.php?id='.$row['car_id'].'" style="margin-top:10px;" class="btn  btn-secondary"> Delete </a>');
         echo(' </td>');
         echo('</tr>');
         echo('<tr> <td>&nbsp;   </td> </tr>');
