@@ -75,7 +75,7 @@ if($dFileSizeKByte<=2048)
     if(in_array($sFileExt,$arrFilesExtension))
     {
         // Make the file path
-        $photo="../assets/images/cars/".$photo_name;
+        $photo="/var/www/html/assets/images/cars/".$photo_name;
         // Upload the File on desired location
         move_uploaded_file($_FILES['photo']['tmp_name'],$photo);
 
