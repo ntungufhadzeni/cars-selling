@@ -97,9 +97,6 @@ include_once 'config.php';
                 $selQuery = "select * from car join company on company.company_id=car.company_id";
                 $exeQuery = mysqli_query($con,$selQuery);
 
-                $output="<div class='container'>
-            <div class='row'>";
-
                 while($row = mysqli_fetch_array($exeQuery)) {
                     $name = $row['car_make'];
                     $model = $row['car_model'];
@@ -110,23 +107,33 @@ include_once 'config.php';
                     $company_name = $row['company_name'];
                     $id = $row['car_id'];
 
+                    // wrap each product in a column
                     $output .= '<div class="col-sm-4">
-               <h4 class="card-header">' . $name . ' ' . $model . '</h4>
-               <img class="img_size" width="350" height="240" src="' . $photo . '" alt="Card image top">
-               <h5>' . $price . '</h5>
-               <p>' . $description . '</p>
-               <a href="' . $url . '">' . $company_name . '</a>
-               <a href="customer/car_view.php?id=' . $id . '" class="btn btn-primary">Buy</a>
-            </div>';
-                    $output .= '</div></div>';
+                    <h4 class="card-header">' . $name . ' ' . $model . '</h4>
+                    <img class="img_size" width="350" height="240" src="' . $photo . '" alt="Card image top">
+                    <h5>' . $price . '</h5>
+                    <p>' . $description . '</p>
+                    <a href="' . $url . '">' . $company_name . '</a>
+                    <a href="customer/car_view.php?id=' . $id . '" class="btn btn-primary">Buy</a>
+                </div>';
+
+                    // create a row every three columns
+                    if(mysqli_num_rows($exeQuery) % 3 == 0){
+                        if(mysqli_num_rows($exeQuery) / 3 == mysqli_num_rows($exeQuery) - $id){
+                            $output .= '</div><div class="row">';
+                        }
+                    }elseif(mysqli_num_rows($exeQuery) / 3 == intval(mysqli_num_rows($exeQuery) / 3) + 1 && mysqli_num_rows($exeQuery) - $id == 1){
+                        $output .= '</div><div class="row">';
+                    }
                 }
-
-                    echo $output;
-
+                // close the last row
+                $output .= '</div></div>';
+                echo $output;
                 ?>
             </div>
         </div>
     </div>
+
     <script type="text/javascript">
         $(document).ready(function() {
             // Add hover action for dropdowns
