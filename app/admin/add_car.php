@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description=inputvalues($_POST['description']);
     $mileage=inputvalues($_POST['mileage']);
     $type=inputvalues($_POST['type']);
-    $photo_name = $make."-".$model."-".$year.".".$_FILES['photo']['name'];
+    $photo_name = preg_replace('/\s/i', '-', $make."-".$model."-".$year."-".$_FILES['photo']['name']);
     $status=1;
     if($stockstatus=='Sold'){
         $status=0;
