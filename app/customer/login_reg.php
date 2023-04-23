@@ -1,125 +1,115 @@
 <?php
-global $con;
 session_start();
+global $conn;
 require('../config.php');
 
 if (isset($_POST['login'])) {
     $error_login = false;
     $error_msg_login = '';
-    if($_SERVER['REQUEST_METHOD'] == "POST"){
-        $email= htmlspecialchars($_POST['email']);
-        $password= htmlspecialchars($_POST['password']);
 
-        if(!empty($email) AND !empty($password)) {
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
 
-            $sql = "SELECT * FROM customer WHERE customer_email = '$email';";
-            $result = mysqli_query($con, $sql);
+        if (!empty($email) && !empty($password)) {
+            $sql = "SELECT * FROM customer WHERE email = '$email'";
+            $result = mysqli_query($conn, $sql);
             $nor = mysqli_num_rows($result);
 
             if ($nor > 0) {
                 $row = mysqli_fetch_assoc($result);
                 if (password_verify($password, $row['password'])) {
-                    if($row['customer_status'] == 1) {
+                    if ($row['status'] == 1) {
                         $_SESSION['admin_logged'] = false;
-                        $_SESSION['customer_id'] = $row['customer_id'];
-                        $_SESSION['customer_name'] = $row['customer_name'];
+                        $_SESSION['customer_id'] = $row['id'];
+                        $_SESSION['customer_name'] = $row['first_name'];
 
                         header('location: index.php');
-                    }
-                    else {
-                        $error_login= true;
-                        $error_msg_login = 'Your account has been suspended';
-                    }
                     } else {
                         $error_login = true;
-                        $error_msg_login = 'Password wrong';
+                        $error_msg_login = 'Your account has been suspended';
                     }
                 } else {
-                    $error_login= true;
-                    $error_msg_login = 'Email not recognized';
+                    $error_login = true;
+                    $error_msg_login = 'Incorrect password';
                 }
+            } else {
+                $error_login = true;
+                $error_msg_login = 'Email not recognized';
             }
         } else {
-            $error_login= true;
-            $error_msg_login= 'Email and password are required';
+            $error_login = true;
+            $error_msg_login = 'Email and password are required';
         }
-
+    }
 }
-
-elseif (isset($_POST['register'])){
+elseif (isset($_POST['register'])) {
     $error_reg = false;
     $error_msg_reg = '';
     $success_msg = '';
     $success = false;
-    $name = trim(mysqli_real_escape_string($con,$_POST['name']));
-    $surname = trim(mysqli_real_escape_string($con,$_POST['surname']));
-    $email = trim(mysqli_real_escape_string($con,$_POST['email']));
-    $contact = trim(mysqli_real_escape_string($con,$_POST['contact']));
-    $province = ucwords(trim(mysqli_real_escape_string($con,$_POST['province'])));
-    $address = ucwords(trim(mysqli_real_escape_string($con,$_POST['address'])));
-    $password = trim(mysqli_real_escape_string($con,$_POST['reg-password']));
-    $retype_password = trim(mysqli_real_escape_string($con,$_POST['retype-password']));
+    $first_name = trim(mysqli_real_escape_string($conn, $_POST['name']));
+    $surname = trim(mysqli_real_escape_string($conn, $_POST['surname']));
+    $email = trim(mysqli_real_escape_string($conn, $_POST['email']));
+    $phone = trim(mysqli_real_escape_string($conn, $_POST['phone']));
+    $province = ucwords(trim(mysqli_real_escape_string($conn, $_POST['province'])));
+    $address = ucwords(trim(mysqli_real_escape_string($conn, $_POST['address'])));
+    $password = trim(mysqli_real_escape_string($conn, $_POST['reg-password']));
+    $retype_password = trim(mysqli_real_escape_string($conn, $_POST['retype-password']));
 
-    if(!empty($name)&&!empty($surname)&&!empty($email)&&!empty($contact)&&!empty($province)&&!empty($address)
-        &&!empty($password)&&!empty($retype_password)){
+    if (!empty($first_name) && !empty($surname) && !empty($email) && !empty($phone) && !empty($province) && !empty($address) && !empty($password) && !empty($retype_password)) {
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
-            if(preg_match("/^0[1-9]\d{8}$/",$contact)){
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (preg_match("/^0[1-9]\d{8}$/", $phone)) {
                 $x = strtolower($email);
-                $sql ="SELECT * from  customer where  lower(customer_email) = '$x' or customer_contact = '$contact';";
+                $sql = "SELECT * FROM customer WHERE LOWER(email) = '$x' OR phone = '$phone';";
 
-                $result = mysqli_query($con,$sql);
+                $result = mysqli_query($conn, $sql);
                 $nor = mysqli_num_rows($result);
-                if($nor == 0) {
-                    if(preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$/",$password)){
-                    if ($retype_password == $password) {
-                        $hashed_password = password_hash($password, PASSWORD_DEFAULT);;
-                        $sql = "INSERT INTO customer(customer_name,customer_surname,customer_email,customer_contact,customer_address,customer_province,password)
-                                                                                                   VALUES('$name','$surname','$email','$contact','$address','$province','$hashed_password')";
-                        mysqli_query($con, $sql);
-                        $success = true;
-                        $error_reg = false;
-                        $success_msg = "Customer registered successfully";
-                        $_SESSION['msg_register'] = "register";
-                    }
-                    else{
-                        $error_reg = true;
-                        $error_msg_reg = "Passwords don't match";
-                        $_SESSION['msg_register'] = "register";
-                    }
-                }
-                    else{
+                if ($nor == 0) {
+                    if (preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$/", $password)) {
+                        if ($retype_password == $password) {
+                            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                            $sql = "INSERT INTO customer(first_name, surname, email, phone, address, province, password) 
+                                    VALUES ('$first_name', '$surname', '$email', '$phone', '$address', '$province', '$hashed_password')";
+                            mysqli_query($conn, $sql);
+                            $success = true;
+                            $error_reg = false;
+                            $success_msg = "Customer registered successfully";
+                            $_SESSION['msg_register'] = "register";
+                        } else {
+                            $error_reg = true;
+                            $error_msg_reg = "Passwords don't match";
+                            $_SESSION['msg_register'] = "register";
+                        }
+                    } else {
                         $error_reg = true;
                         $error_msg_reg = "Password must be 8 characters long and include at least 1 uppercase, lowercase, numeric number, special character";
                         $_SESSION['msg_register'] = "register";
                     }
-                }
-                else{
+                } else {
                     $error_reg = true;
                     $error_msg_reg = 'Customer already exists. Reset password if you forgot it.';
                     $_SESSION['msg_register'] = "register";
                 }
-            }
-            else{
+            } else {
                 $error_reg = true;
                 $error_msg_reg = 'Invalid phone number';
                 $_SESSION['msg_register'] = "register";
             }
-        }
-        else{
+        } else {
             $error_reg = true;
             $error_msg_reg = 'Invalid email address';
             $_SESSION['msg_register'] = "register";
         }
-    }
-    else{
+    } else {
         $error_reg = true;
         $error_msg_reg = 'All fields are required';
         $_SESSION['msg_register'] = "register";
     }
 }
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -161,9 +151,6 @@ elseif (isset($_POST['register'])){
                             </li>
                             <li>
                                 <a class="dropdown-item" href="login_reg.php">Customer</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="../company/login_reg.php">Company</a>
                             </li>
                         </ul>
                     </div>
@@ -267,19 +254,19 @@ elseif (isset($_POST['register'])){
                                 <form method="post" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label for="name">First Names<span style="color:red">*</span></label>
-                                        <input type="text" name="name" id="name"  class="form-control"  placeholder="Name" required>
+                                        <input type="text" name="name" id="name"  class="form-control"  placeholder="First Names" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="surname">Surname<span style="color:red">*</span></label>
                                         <input type="text" name="surname" id="surname"  class="form-control"  placeholder="Surname" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="Email">Email<span style="color:red">*</span></label>
-                                        <input type="email" name="email" id="Email"  class="form-control"  placeholder="Email" required>
+                                        <label for="email">Email<span style="color:red">*</span></label>
+                                        <input type="email" name="email" id="email"  class="form-control"  placeholder="Email" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="contact">Contact<span style="color:red">*</span></label>
-                                        <input type="text" name="contact" id="contact"  class="form-control"  placeholder="Contact" required>
+                                        <label for="phone">Phone<span style="color:red">*</span></label>
+                                        <input type="text" name="phone" id="phone"  class="form-control"  placeholder="Phone" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="province">Province<span style="color:red">*</span></label>
@@ -414,15 +401,4 @@ elseif (isset($_POST['register'])){
         $('#myTab li:last-child a').tab('show') // Select last tab
         $('#myTab li:nth-child(3) a').tab('show') // Select third tab
     </script>
-    <script src="../assets/jquery/jquery.min.js"></script>
-    <script src="../assets/css/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/custom.js"></script>
-    <script src="../assets/js/owl.js"></script>
-    <script src="../assets/js/slick.js"></script>
-    <script src="../assets/js/isotope.js"></script>
-    <script src="../assets/js/accordions.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>
+<?php include('../inc/footer.php');?>

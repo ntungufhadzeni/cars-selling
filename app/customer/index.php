@@ -100,6 +100,12 @@ else{
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
+                <h3>Search</h3>
+                <div class="list-group-item">
+                    <input type="text" placeholder="Search a car" name="search-text-car" id="search-text-car">
+                </div>
+            </div>
+            <div class="list-group">
                 <h3>Price</h3>
                 <div class="list-group-item">
                     <input id="priceSlider" data-slider-id='ex1Slider' data-slider-min="20000" data-slider-max="2000000" data-slider-step="10000" data-slider-value="50000"/>

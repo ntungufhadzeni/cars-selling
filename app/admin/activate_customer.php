@@ -1,11 +1,11 @@
 <?php
 session_start();
-global $con;
+global $conn;
 require('../config.php');
 if(isset($_SESSION['admin_name'])){
-    $id = $_GET['id'];
-    $sql = 'UPDATE customer SET customer_status=1 WHERE customer_id='.$id;
-    $result = mysqli_query($con, $sql);
+    $id = (int) $_GET['id'];
+    $sql = "UPDATE customer SET status=1 WHERE id='$id'";
+    $result = mysqli_query($conn, $sql);
     header('location: all_customers.php');
 
 }

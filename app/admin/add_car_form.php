@@ -10,15 +10,6 @@ else{
 }
 ?>
 
-<?php
-global $con;
-include_once '../config.php';
-
-
-$company_query = "SELECT * FROM company;";
-$companies = mysqli_query($con, $company_query);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,28 +42,18 @@ $companies = mysqli_query($con, $company_query);
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="all_customers.php">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="index.php">Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="all_customers.php"> Customers
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="all_companies.php"> Companies
+                        <a class="nav-link" href="all_cars.php"> Cars
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="orders.php"> Orders
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="all_company_admin.php"> Company Admin
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -114,7 +95,7 @@ $companies = mysqli_query($con, $company_query);
         <h1 class="text-center " style="color:#333333;  margin-top:-60px;"> Car Add Form </h1>
         <div class="well" style="border:solid ; border-color:rgb(3, 60, 115); margin-top:15px;">
     <div class="form1">
-        <form action="add_car.php" method="post" enctype="multipart/form-data" role="form" >
+        <form action="add_car.php" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xs-offset-1 col-md-5">
 
@@ -191,6 +172,26 @@ $companies = mysqli_query($con, $company_query);
 
                     <div id="clear-sec"></div>
 
+                    <div class="main-flabel-wraper">
+                        <label for="company-name" class="flabel">Company Name:</label>
+                    </div>
+
+                    <div class="main-fcontrol-wraper">
+                        <input id="company-name" name="company-name" type="text"  style="width:200px"  required/>
+                    </div>
+
+                    <div id="clear-sec"></div>
+
+                    <div class="main-flabel-wraper">
+                        <label for="country" class="flabel">Country:</label>
+                    </div>
+
+                    <div class="main-fcontrol-wraper">
+                        <input id="country" name="country" type="text"  style="width:200px"  required/>
+                    </div>
+
+                    <div id="clear-sec"></div>
+
                     <br>
                     <br>
                     <br>
@@ -238,22 +239,6 @@ $companies = mysqli_query($con, $company_query);
 
                     <div id="clear-sec"></div>
 
-                    <div class="main-flabel-wraper">
-                        <label for="company">Company<span style="color:red">*</span></label>
-                    </div>
-
-                    <div class="main-fcontrol-wraper">
-                        <select name="company" id="company" style="width:200px">
-                            <option value="1">--- Select Company ---</option>
-                            <?php
-                            foreach($companies as $v){
-                                    echo "<option value = '" .$v['company_id']. "'>" .$v['company_name']. "</option>";
-                                }
-                            ?>
-                        </select>
-                    </div>
-
-                    <div id="clear-sec"></div>
 
                     <div class="main-flabel-wraper">
                         <label for="price" class="flabel">Price :</label>
@@ -271,6 +256,23 @@ $companies = mysqli_query($con, $company_query);
 
                     <div class="main-fcontrol-wraper">
                         <input id="description" name="description" type="text" min="0" style="width:200px" required/>
+                    </div>
+
+                    <div class="main-flabel-wraper">
+                        <label for="url" class="flabel">Url:</label>
+                    </div>
+
+                    <div class="main-fcontrol-wraper">
+                        <input id="url" name="url" type="text"  style="width:200px" />
+                    </div>
+
+                    <div id="clear-sec"></div>
+
+                    <div class="main-flabel-wraper">
+                        <label for="currency" class="flabel">Currency:</label>
+                    </div>
+                    <div class="main-fcontrol-wraper">
+                        <input id="currency" name="currency" type="text"  style="width:200px" />
                     </div>
 
                     <div id="clear-sec"></div>

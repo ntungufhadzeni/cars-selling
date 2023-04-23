@@ -1,7 +1,7 @@
 <?php
-global $con;
-require('../config.php');
 session_start();
+global $conn;
+require('../config.php');
 
 if (isset($_POST['login'])) {
     $error_login = false;
@@ -12,17 +12,17 @@ if (isset($_POST['login'])) {
 
         if(!empty($email) AND !empty($password)) {
 
-            $sql = "SELECT * FROM admin WHERE admin_email = '$email';";
-            $result = mysqli_query($con, $sql);
+            $sql = "SELECT * FROM admin WHERE email='$email';";
+            $result = mysqli_query($conn, $sql);
             $nor = mysqli_num_rows($result);
 
             if ($nor > 0) {
                 $row = mysqli_fetch_assoc($result);
                 if (password_verify($password, $row['password'])) {
                     $_SESSION['admin_logged']=true;
-                    $_SESSION['admin_id']= $row['admin_id'];
-                    $_SESSION['admin_name'] = $row['admin_name'];
-                    header('location:index.php');
+                    $_SESSION['admin_id']= $row['id'];
+                    $_SESSION['admin_name'] = $row['first_name'];
+                    header('location:all_customers.php');
                 } else {
                     $error_login=true;
                     $error_msg_login = 'Password wrong';
@@ -44,30 +44,30 @@ elseif (isset($_POST['register'])){
     $error_msg_reg = '';
     $success_msg = '';
     $success = false;
-    $name = trim(mysqli_real_escape_string($con,$_POST['name']));
-    $surname = trim(mysqli_real_escape_string($con,$_POST['surname']));
-    $email = trim(mysqli_real_escape_string($con,$_POST['email']));
-    $contact = trim(mysqli_real_escape_string($con,$_POST['contact']));
-    $password = trim(mysqli_real_escape_string($con,$_POST['reg-password']));
-    $retype_password = trim(mysqli_real_escape_string($con,$_POST['retype-password']));
+    $name = trim(mysqli_real_escape_string($conn,$_POST['name']));
+    $surname = trim(mysqli_real_escape_string($conn,$_POST['surname']));
+    $email = trim(mysqli_real_escape_string($conn,$_POST['email']));
+    $phone = trim(mysqli_real_escape_string($conn,$_POST['phone']));
+    $password = trim(mysqli_real_escape_string($conn,$_POST['reg-password']));
+    $retype_password = trim(mysqli_real_escape_string($conn,$_POST['retype-password']));
 
-    if(!empty($name)&&!empty($surname)&&!empty($email)&&!empty($contact)
+    if(!empty($name)&&!empty($surname)&&!empty($email)&&!empty($phone)
         &&!empty($password)&&!empty($retype_password)){
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL)){
-            if(preg_match("/^0[1-9]\d{8}$/",$contact)){
+            if(preg_match("/^0[1-9]\d{8}$/",$phone)){
                 $x = strtolower($email);
-                $sql ="SELECT * from  admin where  lower(admin_email) = '$x' or admin_contact = '$contact';";
+                $sql ="SELECT * from  admin where  lower(email) = '$x' or phone = '$phone';";
 
-                $result = mysqli_query($con,$sql);
+                $result = mysqli_query($conn,$sql);
                 $nor = mysqli_num_rows($result);
                 if($nor == 0) {
                     if(preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$/",$password)){
-                        if ($retype_password == $password) {
+                        if($retype_password == $password) {
                             $hashed_password = password_hash($password, PASSWORD_DEFAULT);;
-                            $sql = "INSERT INTO admin(admin_name,admin_surname,admin_email,admin_contact,password)
-                                                                                                   VALUES('$name','$surname','$email','$contact','$hashed_password')";
-                            mysqli_query($con, $sql);
+                            $sql = "INSERT INTO admin(first_name,surname,email,phone,password)
+                            VALUES('$name','$surname','$email','$phone','$hashed_password')";
+                            mysqli_query($conn, $sql);
                             $success = true;
                             $error_reg = false;
                             $success_msg = "admin registered successfully";
@@ -152,9 +152,6 @@ elseif (isset($_POST['register'])){
                             </li>
                             <li>
                                 <a class="dropdown-item" href="../customer/login_reg.php">Customer</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="../company/login_reg.php">Company</a>
                             </li>
                         </ul>
                     </div>
@@ -265,12 +262,12 @@ elseif (isset($_POST['register'])){
                                         <input type="text" name="surname" id="surname"  class="form-control"  placeholder="Surname" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="Email">Email<span style="color:red">*</span></label>
-                                        <input type="email" name="email" id="Email"  class="form-control"  placeholder="Email" required>
+                                        <label for="email">Email<span style="color:red">*</span></label>
+                                        <input type="email" name="email" id="email"  class="form-control"  placeholder="Email" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="contact">Contact<span style="color:red">*</span></label>
-                                        <input type="text" name="contact" id="contact"  class="form-control"  placeholder="Contact" required>
+                                        <label for="phone">Phone<span style="color:red">*</span></label>
+                                        <input type="text" name="phone" id="phone"  class="form-control"  placeholder="Phone" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="reg-password">Password<span style="color:red">*</span></label>
@@ -387,16 +384,5 @@ elseif (isset($_POST['register'])){
         $('#myTab li:last-child a').tab('show') // Select last tab
         $('#myTab li:nth-child(3) a').tab('show') // Select third tab
     </script>
-    <script src="../assets/jquery/jquery.min.js"></script>
-    <script src="../assets/css/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/custom.js"></script>
-    <script src="../assets/js/owl.js"></script>
-    <script src="../assets/js/slick.js"></script>
-    <script src="../assets/js/isotope.js"></script>
-    <script src="../assets/js/accordions.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>
+    <?php include('../inc/footer.php');?>
 

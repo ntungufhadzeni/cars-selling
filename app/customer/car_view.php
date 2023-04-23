@@ -1,21 +1,16 @@
 <?php
-global $con;
+global $conn;
 include_once '../config.php';
 session_start();
 $name = '';
-$vid=$_GET['id'];
-$_SESSION['vid'] = $vid;
-$sql="select c.car_make as make, c.car_model as model, c.car_price as price, c.car_color as color, c.car_image as image, ";
-$sql .= "c.car_year as year, c.car_transmission as transmission, c.car_engine_capacity as engine_capacity,";
-$sql .= "c.car_fuel as fuel, c.car_status as status, co.company_name as company_name, co.company_currency as currency  ";
-$sql .= "from car c ";
-$sql .= "join company co on co.company_id = c.company_id ";
-$sql .= "where c.car_id=".$vid;
-$result = mysqli_query($con,$sql);
+$id=$_GET['id'];
+$_SESSION['vid'] = $id;
+$sql="select * from car where id='$id'";
+$result = mysqli_query($conn,$sql);
 $row = mysqli_fetch_assoc($result);
 $photo = $row['image'];
 $seller = $row['company_name'];
-$make = $row['make'];
+$make = $row['maker'];
 $model = $row['model'];
 $car_name = $make." ".$model;
 $price = $row['currency'].''.$row['price'];

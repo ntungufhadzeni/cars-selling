@@ -1,23 +1,22 @@
 <?php
-global $con;
-include_once '../config.php';
+global $conn;
 session_start();
+include_once '../config.php';
 $name = '';
 if(isset($_SESSION['customer_name']) && isset($_SESSION['customer_id'])){
     $name = $_SESSION['customer_name'];
     $id = $_SESSION['customer_id'];
 
-    $sql = "SELECT car.car_make as make, car.car_model as model, car.car_price as price, ";
-    $sql .= "customer.customer_address as address, company.company_name as company_name, ";
+    $sql = "SELECT car.maker as maker, car.model as model, car.price as price, ";
+    $sql .= "customer.address as address, car.company_name as company_name, ";
     $sql .= "orders.payment_status as payment_status, orders.delivery_status as delivery_status, ";
-    $sql .= "DATE_FORMAT(orders.date_added,'%d-%b-%Y') as date, orders.id as order_number ";
+    $sql .= "DATE_FORMAT(orders.date_created,'%d-%b-%Y') as date, orders.id as order_number ";
     $sql .= "FROM orders ";
-    $sql .= "JOIN car ON car.car_id = orders.car_id ";
-    $sql .= "JOIN customer ON customer.customer_id = orders.customer_id ";
-    $sql .= "JOIN company ON car.company_id = company.company_id ";
-    $sql .= "WHERE orders.customer_id = ".$id;
+    $sql .= "JOIN car ON car.id = orders.car_id ";
+    $sql .= "JOIN customer ON customer.id = orders.customer_id ";
+    $sql .= "WHERE orders.customer_id = '".$id."'";
 
-    $result =  mysqli_query($con, $sql);
+    $result =  mysqli_query($conn, $sql);
 
 }
 else{
@@ -145,7 +144,7 @@ else{
             $order_number = $row['order_number'];
             $date = $row['date'];
             $company = $row['company_name'];
-            $c_model = $row['make']." ".$row['model'];
+            $c_model = $row['maker']." ".$row['model'];
             $address = $row['address'];
             $price = $row['price'];
             $p_status = 'Not paid';

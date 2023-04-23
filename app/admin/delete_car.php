@@ -1,7 +1,7 @@
 <?php
-global $con;
+global $conn;
 require('../config.php');
-$vid=$_GET['id'];
-$sql = 'DELETE FROM car WHERE car_id='.$vid;
-$result = mysqli_query($con, $sql);
-header('location:index.php');
+$vid=$_GET['vid'];
+$sql = 'DELETE FROM car WHERE id='.$vid;
+$result = mysqli_query($conn, $sql);
+header('location:all_cars.php');

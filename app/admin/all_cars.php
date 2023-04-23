@@ -1,22 +1,17 @@
 <?php
 session_start();
 $name = '';
+global $conn;
+include_once '../config.php';
 if(isset($_SESSION['admin_name'])){
     $name = $_SESSION['admin_name'];
     $id = $_SESSION['admin_id'];
+    $sql = "SELECT * FROM car";
+    $result = mysqli_query($conn,$sql);
 }
 else{
     header('location: login_reg.php');
 }
-?>
-
-<?php
-global $con;
-include_once '../config.php';
-
-
-$sql = "SELECT * FROM car";
-$rs_result = mysqli_query($con,$sql);
 ?>
 
 <!DOCTYPE html>
@@ -52,8 +47,8 @@ $rs_result = mysqli_query($con,$sql);
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="index.php">Home
+                    <li class="nav-item">
+                        <a class="nav-link" href="all_customers.php">Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -62,18 +57,13 @@ $rs_result = mysqli_query($con,$sql);
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="all_companies.php"> Companies
+                    <li class="nav-item active">
+                        <a class="nav-link" href="all_cars.php"> Cars
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="orders.php"> Orders
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="all_company_admin.php"> Company Admin
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -114,20 +104,17 @@ $rs_result = mysqli_query($con,$sql);
     <div class="col-md-2">
         <a href="add_car_form.php" class="btn btn-info btn-block">Add a Car </a>
     </div>
-    <div class="col-md-2">
-        <a href="add_company_form.php" class="btn btn-info btn-block">Add a Company </a>
-    </div>
 </div>
 <div class="container" style=" margin-top:90px;">
     <?php
-    while($row=mysqli_fetch_assoc($rs_result)){
+    while($row=mysqli_fetch_assoc($result)){
 
         echo('<div class="col-md-10 well" >');
 
         echo('<div class="row">');
 
         echo('<div class="col-md-2" >');
-        echo('<img class="img-circle" src="../assets/images/cars/'.$row['car_image'].'" width="150px" height="120px">');
+        echo('<img class="img-circle" src="../assets/images/cars/'.$row['image'].'" width="150px" height="120px">');
         echo('</div>');
 
         echo('<div class="col-md-3" >');
@@ -135,24 +122,24 @@ $rs_result = mysqli_query($con,$sql);
         echo('<thead>');
         echo(' <tr>');
         echo('<th> Stock#: </th>');
-        echo('<th>'.$row['car_id'].'</th>');
+        echo('<th>'.$row['id'].'</th>');
         echo('</tr>');
         echo('</thead>');
         echo('<tbody>');
         echo('<tr>');
         echo('<td>Maker:  </td>');
-        echo('<td>'.$row['car_make'].'</td>');
+        echo('<td>'.$row['maker'].'</td>');
 
         echo('</tr>');
         echo('<tr>');
         echo('<td>Model:</td>');
-        echo('<td>'.$row['car_model'].'</td>');
+        echo('<td>'.$row['model'].'</td>');
 
 
         echo('     </tr>');
         echo(' <tr>');
         echo('<td>Year/Month:</td>');
-        echo('<td>'.$row['car_year'].'</td>');
+        echo('<td>'.$row['year'].'</td>');
         echo('</tr>');
         echo('</tbody>');
         echo('</table>');
@@ -176,18 +163,18 @@ $rs_result = mysqli_query($con,$sql);
         echo('</thead>');
         echo('<tr>');
         echo('<td>Engine: </td>');
-        echo('<td>'.$row['car_engine_capacity'].'</td>');
+        echo('<td>'.$row['engine_capacity'].'</td>');
 
         echo('</tr>');
         echo('<tr>');
         echo('<td>Transmission:</td>');
-        echo('<td>'.$row['car_transmission'].'</td>');
+        echo('<td>'.$row['transmission'].'</td>');
 
 
         echo('</tr>');
         echo('<tr>');
         echo('<td>Color:</td>');
-        echo('<td>'.$row['car_color'].'</td>');
+        echo('<td>'.$row['color'].'</td>');
 
         echo('</tr>');
 
@@ -207,7 +194,7 @@ $rs_result = mysqli_query($con,$sql);
         echo('<td align="center" > PRICE R </td>');
         echo('</tr>');
 
-        echo('<tr> <td align="center"> '.$row['car_price'].' </td> </tr>');
+        echo('<tr> <td align="center"> '.$row['price'].' </td> </tr>');
         echo('<tr> <td align="center">&nbsp; </td> </tr>');
         echo('<tr> <td> </td> </tr>');
         echo('</tbody>');
@@ -225,7 +212,7 @@ $rs_result = mysqli_query($con,$sql);
         echo('</thead>');
         echo('<tbody>');
         echo('<td >');
-        echo('<a href="delete_car.php?id='.$row['car_id'].'" style="margin-top:10px;" class="btn  btn-secondary"> Delete </a>');
+        echo('<a href="delete_car.php?vid='.$row['id'].'" style="margin-top:10px;" class="btn  btn-secondary"> Delete </a>');
         echo(' </td>');
         echo('</tr>');
         echo('<tr> <td>&nbsp;   </td> </tr>');
@@ -246,4 +233,3 @@ $rs_result = mysqli_query($con,$sql);
     src="https://www.bootstrapskins.com/google-maps-authorization.js?id=1c150919-c678-1a10-c97a-f597084f6f83&c=google-maps-code&u=1450373278" defer async>
 </script>
 <?php include('../inc/footer.php');?>
-

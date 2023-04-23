@@ -2,17 +2,19 @@
 
 class Car
 {
-    private $host = 'db';
-    private $user = 'root';
-    private $password = 'Nnrrr@123';
-    private $carTable = 'car';
+    private $server = "db";
+    private $user = "MYSQL_USER";
+    private $password = "MYSQL_PASSWORD";
+    private $port = 3306;
+    private $database = "MYSQL_DATABASE";
 
-    private $database = "car";
     private $dbConnect = false;
+
+    private $carTable = '`car`';
 
     public function __construct(){
         if(!$this->dbConnect){
-            $conn = new mysqli($this->host, $this->user, $this->password, $this->database);
+            $conn = new mysqli($this->server, $this->user, $this->password, $this->database, $this->port);
             if($conn->connect_error){
                 die('Error failed to connect to MySQL: ' . $conn->connect_error);
             } else {
@@ -22,42 +24,41 @@ class Car
     }
 
     public function getMake(){
-        $sqlQuery = "SELECT DISTINCT car_make FROM ".$this->carTable;
+        $sqlQuery = "SELECT DISTINCT maker FROM ".$this->carTable;
         $result = mysqli_query($this->dbConnect, $sqlQuery);
 
         $makes = array();
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $makes[] = $row['car_make'];
+            $makes[] = $row['maker'];
         }
 
         return $makes;
     }
 
     public function searchCars(){
-        $sqlQuery = "SELECT * FROM ".$this->carTable.' JOIN company ON car.company_id = company.company_id ';
-        if(isset($_POST["minPrice"], $_POST["maxPrice"]) &&
-            !empty($_POST["minPrice"]) && !empty($_POST["maxPrice"])){
+        $sqlQuery = "SELECT * FROM ".$this->carTable;
+        if(!empty($_POST["minPrice"]) && !empty($_POST["maxPrice"])){
             $minPrice = (int) $_POST["minPrice"];
             $maxPrice = (int) $_POST["maxPrice"];
             $sqlQuery .= "
-		WHERE car_price BETWEEN ".$minPrice." AND ".$maxPrice;
+        WHERE price BETWEEN ".$minPrice." AND ".$maxPrice;
         }
         if(isset($_POST["make"])) {
             $makeFilterData = implode("','", $_POST["make"]);
             $sqlQuery .= "
-		AND car_make IN('".$makeFilterData."')";
+        AND maker IN('".$makeFilterData."')";
         }
-        /*if(isset($_POST["model"])){
-            $modelFilterData = implode("','", $_POST["model"]);
-            $sqlQuery .= "
-		AND car_model IN('".$modelFilterData."')";
-        }*/
         if(isset($_POST["year"])) {
             $yearFilterData = implode(",", $_POST["year"]);
             $sqlQuery .= "
-		AND car_year IN('".$yearFilterData."')";
+        AND year IN(".$yearFilterData.")";
         }
-        $sqlQuery .= " ORDER By car_price;";
+        if(isset($_POST["search"]) && $_POST["search"] != '') {
+            $search = $_POST["search"];
+            $sqlQuery .= "
+        AND (LOWER(maker) LIKE '%".$search."%' OR LOWER(model) LIKE '%".$search."%')";
+        }
+        $sqlQuery .= " ORDER BY price;";
         $result = mysqli_query($this->dbConnect, $sqlQuery);
         $totalResult = mysqli_num_rows($result);
         $searchResultHTML = '';
@@ -66,17 +67,16 @@ class Car
                 $searchResultHTML .= '
 			<div class="col-sm-4 col-lg-3 col-md-3">
 			<div class="product">
-			<img src="../assets/images/cars/'. $row['car_image'] .'" 
+			<img src="../assets/images/cars/'. $row['image'] .'" 
 alt="" class="img-responsive" >
 			<p><strong><a 
-href="car_view.php?id='.$row['car_id'].'">'.$row['car_make'].' '. $row['car_model'] .'</a></strong></p>
+href="car_view.php?id='.$row['id'].'">'.$row['maker'].' '. $row['model'] .'</a></strong></p>
 			<h4 style="text-align:center;" class="text-danger" 
->'. $row['car_price'] .'</h4>
-            <a href='.$row['company_url'].'>'.$row['company_name'].'</a>
-			<p>Make : '. $row['car_make'].'<br />
-			Model : '. $row['car_model'] .' <br />
-			Price : '. $row['company_currency'].' '.$row['car_price'] .'<br />
-			Year : '. $row['car_year'] .'</p>
+>'. $row['currency'].' '. number_format($row['price'], 2, ',', ' ') .'</h4>
+            <a href='.$row['url'].'>'.$row['company_name'].'</a>
+			<p>Maker : '. $row['maker'].'<br />
+			Model : '. $row['model'] .' <br />
+			Year : '. $row['year'] .'</p>
 			</div>
 			</div>';
             }
@@ -88,12 +88,12 @@ href="car_view.php?id='.$row['car_id'].'">'.$row['car_make'].' '. $row['car_mode
 
     public function getModel()
     {
-        $sqlQuery = "SELECT DISTINCT car_model FROM ".$this->carTable;
+        $sqlQuery = "SELECT DISTINCT model FROM ".$this->carTable;
         $result = mysqli_query($this->dbConnect, $sqlQuery);
 
         $models = array();
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $models[] = $row['car_model'];
+            $models[] = $row['model'];
         }
 
         return $models;
@@ -101,16 +101,15 @@ href="car_view.php?id='.$row['car_id'].'">'.$row['car_make'].' '. $row['car_mode
 
     public function getYear()
     {
-        $sqlQuery = "SELECT DISTINCT car_year FROM ".$this->carTable;
+        $sqlQuery = "SELECT DISTINCT year FROM ".$this->carTable;
         $result = mysqli_query($this->dbConnect, $sqlQuery);
 
         $years = array();
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $years[] = $row['car_year'];
+            $years[] = $row['year'];
         }
 
         return $years;
     }
 }
 
-?>

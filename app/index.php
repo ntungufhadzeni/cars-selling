@@ -1,8 +1,3 @@
-<?php
-global $con;
-include_once 'config.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,9 +38,6 @@ include_once 'config.php';
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="customer/login_reg.php">Customer</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="company/login_reg.php">Company</a>
                                     </li>
                                 </ul>
                             </div>
@@ -90,28 +82,28 @@ include_once 'config.php';
                         <a href="#">view all products <i class="fa fa-angle-right"></i></a>
                     </div>
                 </div>
-                <?php
-                include('config.php');   // include database connection
-
+                <?php // include database connection
+                global $conn;
+                include('config.php');
                 $output="";
-                $selQuery = "select * from car join company on company.company_id=car.company_id";
-                $exeQuery = mysqli_query($con,$selQuery);
+                $selQuery = "select * from car";
+                $exeQuery = mysqli_query($conn,$selQuery);
 
                 while($row = mysqli_fetch_array($exeQuery)) {
-                    $name = $row['car_make'];
-                    $model = $row['car_model'];
-                    $description = $row['car_description'];
-                    $photo = "assets/images/cars/" . $row['car_image'];
-                    $url = $row['company_url'];
-                    $price = $row['company_currency'] . ' ' . $row['car_price'];
+                    $name = $row['maker'];
+                    $model = $row['model'];
+                    $description = $row['description'];
+                    $photo = "assets/images/cars/" . $row['image'];
+                    $url = $row['url'];
+                    $price = $row['currency'] . ' ' . $row['price'];
                     $company_name = $row['company_name'];
-                    $id = $row['car_id'];
+                    $id = $row['id'];
 
                     // wrap each product in a column
                     $output .= '<div class="col-sm-4">
                     <h4 class="card-header">' . $name . ' ' . $model . '</h4>
                     <img class="img_size" width="350" height="240" src="' . $photo . '" alt="Card image top">
-                    <h5>' . $price . '</h5>
+                    <h5>' . number_format($price, 2, ',', ' ') . '</h5>
                     <p>' . $description . '</p>
                     <a href="' . $url . '">' . $company_name . '</a>
                     <a href="customer/car_view.php?id=' . $id . '" class="btn btn-primary">Buy</a>
@@ -152,12 +144,4 @@ include_once 'config.php';
             });
         });
     </script>
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/isotope.js"></script>
-    <script src="assets/js/accordions.js"></script>
-    <script src="assets/jquery/jquery.min.js"></script>
-    <script src="assets/css/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <div style="margin-top: 50px"></div>
 <?php include('inc/footer.php');?>

@@ -11,12 +11,12 @@ else{
 ?>
 
 <?php
-global $con;
+global $conn;
 include_once '../config.php';
 
 
 $sql = "SELECT * FROM customer";
-$result = mysqli_query($con,$sql);
+$result = mysqli_query($conn,$sql);
 ?>
 
     <!DOCTYPE html>
@@ -53,27 +53,17 @@ $result = mysqli_query($con,$sql);
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="index.php">Home
+                        <a class="nav-link" href="all_customers.php">Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="all_customers.php"> Customers
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="all_companies.php"> Companies
+                    <li class="nav-item">
+                        <a class="nav-link" href="all_cars.php"> Cars
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="orders.php"> Orders
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="all_company_admin.php"> Company Admin
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -147,26 +137,26 @@ $result = mysqli_query($con,$sql);
                 ?>
                 <tr>
                     <th scope="row">
-                        <?php echo($row['customer_id']); ?>
+                        <?php echo($row['id']); ?>
                     </th>
                     <td>
-                        <?php echo($row['customer_name']); ?>
+                        <?php echo($row['first_name']); ?>
                     </td>
                     <td>
-                        <?php echo($row['customer_surname']); ?>
+                        <?php echo($row['surname']); ?>
                     </td>
                     <td>
-                        <?php echo($row['customer_contact']); ?>
+                        <?php echo($row['phone']); ?>
                     </td>
                     <td>
-                        <?php echo($row['customer_email']); ?>
+                        <?php echo($row['email']); ?>
                     </td>
                     <td>
-                        <?php echo($row['customer_address']); ?>
+                        <?php echo($row['address']); ?>
                     </td>
                     <td>
                         <?php
-                        if($row['customer_status'] == 1){
+                        if($row['status'] == 1){
                             echo "<font color='green'>Account Activated</font>";
                         }else{
                             echo "<font color='red'>Account Deactivated</font>";
@@ -175,8 +165,8 @@ $result = mysqli_query($con,$sql);
                     </td>
                     <td>
                         <?php
-                        $id = $row['customer_id'];
-                        if($row['customer_status'] == 1){
+                        $id = $row['id'];
+                        if($row['status'] == 1){
                             echo('<a href="deactivate_customer.php?id='.$id.'><button class="btn btn-primary">Deactivate</button></a>');
                         }else{
                             echo('<a href="activate_customer.php?id='.$id.'><button class="btn btn-primary">Activate</button></a>');

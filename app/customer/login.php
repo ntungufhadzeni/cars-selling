@@ -1,16 +1,15 @@
 <?php
-global $con;
+global $conn;
 require('../config.php');
 session_start();
-$vid=$_SESSION['vid'];
+$id=$_SESSION['id'];
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     $email= htmlspecialchars($_POST['email']);
     $password= htmlspecialchars($_POST['password']);
 
     if(!empty($email) AND !empty($password)) {
-
-        $sql = "SELECT * FROM customer WHERE customer_email = '$email';";
-        $result = mysqli_query($con, $sql);
+        $sql = "SELECT * FROM customer WHERE email='$email'";
+        $result = mysqli_query($conn, $sql);
         $nor = mysqli_num_rows($result);
 
         if ($nor > 0) {
@@ -18,10 +17,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             if (password_verify($password, $row['password'])) {
                 if($row['customer_status'] == 1) {
                     $_SESSION['admin_logged'] = false;
-                    $_SESSION['customer_id'] = $row['customer_id'];
-                    $_SESSION['customer_name'] = $row['customer_name'];
+                    $_SESSION['customer_id'] = $row['id'];
+                    $_SESSION['customer_name'] = $row['first_name'];
 
-                    header('location: car_view.php?id='.$vid);
+                    header('location: car_view.php?id='.$id);
                 }
                 else {
                     $error_login= true;

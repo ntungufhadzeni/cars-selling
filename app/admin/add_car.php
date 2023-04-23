@@ -1,6 +1,4 @@
 <?php
-
-$photo_name = '';
 session_start();
 $name = '';
 if(isset($_SESSION['admin_name'])){
@@ -11,29 +9,32 @@ else{
     header('location: login_reg.php');
 }
 
-global $con;
+global $conn;
 require('../config.php');
+$photo_name = '';
 function inputvalues($data) {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+    return htmlspecialchars($data);
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $make=inputvalues($_POST['maker']);
+    $maker=inputvalues($_POST['maker']);
     $model= inputvalues($_POST['model']) ;
     $color=inputvalues($_POST['color']);
     $stockstatus=inputvalues( $_POST['stockstatus']);
-    $year=inputvalues($_POST['year']);
+    $year= (int) inputvalues($_POST['year']);
     $transmission=inputvalues($_POST['transmission']);
     $enginecapacity=inputvalues($_POST['enginecapacity']);
     $fuel=inputvalues($_POST['fuel']);
-    $company=inputvalues($_POST['company']);
-    $price=inputvalues($_POST['price']);
+    $price=(int) inputvalues($_POST['price']);
     $description=inputvalues($_POST['description']);
     $mileage=inputvalues($_POST['mileage']);
     $type=inputvalues($_POST['type']);
-    $photo_name = preg_replace('/\s/i', '-', $make."-".$model."-".$year."-".$_FILES['photo']['name']);
+    $company_name=inputvalues($_POST['company-name']);
+    $country= inputvalues($_POST['country']) ;
+    $url=inputvalues($_POST['url']);
+    $currency=inputvalues( $_POST['currency']);
+    $photo_name = preg_replace('/\s/i', '-', $maker."-".$model."-".$year."-".basename($_FILES['photo']['name']));
     $status=1;
     if($stockstatus=='Sold'){
         $status=0;
@@ -41,20 +42,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-    $sql="insert into car(car_make,car_model,car_price,car_image,car_fuel,car_engine_capacity,";
-    $sql .="car_description,car_color,car_mileage,company_id,car_status,car_transmission,car_type,car_year)";
-    $sql .=" values('$make','$model','$price','$photo_name','$fuel','$enginecapacity','$description','$color','$mileage','$company','$status',";
-    $sql .="'$transmission','$type','$year')";
+    $sql="insert into car(maker,model,price,image,fuel,engine_capacity,";
+    $sql .="description,color,mileage,status,transmission,type,year,company_name,country,url,currency)";
+    $sql .=" values('$maker','$model','$price','$photo_name','$fuel','$enginecapacity','$description','$color','$mileage','$status',";
+    $sql .="'$transmission','$type','$year','$company_name','$country','$url','$currency')";
 
-    $result = mysqli_query($con, $sql);
+
+    $result = mysqli_query($conn, $sql);
     if($result){
         $_SESSION['admin_car_msg'] = "Car added successfully";
     }
     else{
         $_SESSION['admin_car_msg'] = "Error adding car.";
     }
-
-
 
 
 }
@@ -75,10 +75,9 @@ if($dFileSizeKByte<=2048)
     if(in_array($sFileExt,$arrFilesExtension))
     {
         // Make the file path
-        $photo="/var/www/html/assets/images/cars/".$photo_name;
+        $photo="../assets/images/cars/".$photo_name;
         // Upload the File on desired location
         move_uploaded_file($_FILES['photo']['tmp_name'],$photo);
-
 
     }
     else
@@ -92,4 +91,4 @@ else
 }
 
 header('location:add_car_form.php');
-?>
+
