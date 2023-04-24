@@ -7,14 +7,10 @@ if(isset($_SESSION['customer_name']) && isset($_SESSION['customer_id'])){
     $name = $_SESSION['customer_name'];
     $id = $_SESSION['customer_id'];
 
-    $sql = "SELECT car.maker as maker, car.model as model, car.price as price, ";
-    $sql .= "customer.address as address, car.company_name as company_name, ";
-    $sql .= "orders.payment_status as payment_status, orders.delivery_status as delivery_status, ";
-    $sql .= "DATE_FORMAT(orders.date_created,'%d-%b-%Y') as date, orders.id as order_number ";
+    $sql = "SELECT id, car, grand_total, customer, email, phone, shipping_address, payment_method, ";
+    $sql .= "DATE_FORMAT(date_created,'%d-%b-%Y') as date, customer_id ";
     $sql .= "FROM orders ";
-    $sql .= "JOIN car ON car.id = orders.car_id ";
-    $sql .= "JOIN customer ON customer.id = orders.customer_id ";
-    $sql .= "WHERE orders.customer_id = '".$id."'";
+    $sql .= "WHERE customer_id = '".$id."'";
 
     $result =  mysqli_query($conn, $sql);
 
@@ -116,47 +112,40 @@ else{
                 Date
             </th>
             <th>
-                Company
+                Customer
             </th>
             <th>
-                Car Model
+                Car
             </th>
             <th>
-                Price
+                Grand Total
             </th>
             <th>
                 Shipping Address
             </th>
             <th>
-                Payment Status
+                Phone
             </th>
             <th>
-                Delivery Status
+                Email
             </th>
             <th>
-                Check Out
+                Payment Method
             </th>
         </tr>
         </thead>
         <?php
         $status_colors = array(1 => '#00ff00', 0 => '#ff0000');
         while($row = mysqli_fetch_assoc($result)){
-            $order_number = $row['order_number'];
+            $order_number = $row['id'];
             $date = $row['date'];
-            $company = $row['company_name'];
-            $c_model = $row['maker']." ".$row['model'];
-            $address = $row['address'];
-            $price = $row['price'];
-            $p_status = 'Not paid';
-            $p_code = $row['payment_status'];
-            $d_code = $row['delivery_status'];
-            $d_status = 'Not delivered';
-            if($p_code == 1){
-                $p_status = "Paid";
-            }
-            if($d_code == 1){
-                $d_status = 'Delivered';
-            }
+            $customer = $row['customer'];
+            $car = $row['car'];
+            $address = $row['shipping_address'];
+            $price = $row['grand_total'];
+            $payment_method = $row['payment_method'];
+            $phone = $row['phone'];
+            $email = $row['email'];
 
             ?>
             <tr>
@@ -167,24 +156,25 @@ else{
                     <?php echo($date); ?>
                 </td>
                 <td>
-                    <?php echo($company); ?>
+                    <?php echo($customer); ?>
                 </td>
                 <td>
-                    <?php echo($c_model); ?>
+                    <?php echo($car); ?>
                 </td>
                 <td>
-                    $<?php echo($price); ?>
+                    R <?php echo(number_format($price,2, ',', ' ')); ?>
                 </td>
                 <td>
-                    $<?php echo($address); ?>
+                    <?php echo($address); ?>
                 </td>
-                <td style="background-color: <?php echo $status_colors[$p_code]?>;">
-                    $<?php echo($p_status); ?>
-                </td>
-                <td style="background-color: <?php echo $status_colors[$d_code]?>;" >
-                    $<?php echo($d_status); ?>
+                <td >
+                    <?php echo($phone); ?>
                 </td>
                 <td>
+                    <?php echo($email); ?>
+                </td>
+                <td>
+                    <?php echo($payment_method); ?>
                 </td>
             </tr>
         <?php }?>

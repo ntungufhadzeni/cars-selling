@@ -133,7 +133,7 @@ elseif (isset($_POST['register'])){
 <header class="">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="../index.php">
+            <a class="navbar-brand" href="index.php">
                 <h2>Online-<em>Cars</em></h2>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,11 +141,13 @@ elseif (isset($_POST['register'])){
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.php">Home</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../index.php">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
                     </li>
-                    <div class="dropdown dropdown-hover">
-                        <a class="nav-link active" data-bs-toggle="dropdown" aria-expanded="false" href="#">Login</a>
+                    <li class="nav-item dropdown dropdown-hover">
+                        <a class="nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false">Login</a>
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" href="login_reg.php">Admin</a>
@@ -154,9 +156,10 @@ elseif (isset($_POST['register'])){
                                 <a class="dropdown-item" href="../customer/login_reg.php">Customer</a>
                             </li>
                         </ul>
-                    </div>
+                    </li>
                 </ul>
             </div>
+        </div>
     </nav>
 </header>
 <div class="container">

@@ -287,7 +287,7 @@ if($status != 1) {
         <div class="col-md-5">
             <?php
             if(isset($_SESSION['customer_name'])){?>
-            <div style="margin-bottom: 20px"><a href='#' class='btn btn-primary'>Checkout</a></div>
+            <div style="margin-bottom: 20px"><a href="checkout.php?id=<?php echo $id; ?>" class='btn btn-primary'>Checkout</a></div>
             <?php }
             ?>
             <?php

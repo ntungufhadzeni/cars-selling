@@ -1,3 +1,8 @@
+<?php // include database connection
+ global $conn;
+ include('config.php');
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,45 +19,39 @@
     <title>Online-cars</title>
 </head>
 <body>
-    <header class="">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand" href="index.php">
-                    <h2>Online-<em>Cars</em></h2>
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="index.php">Home
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                            <div class="dropdown dropdown-hover">
-                                <a class="nav-link" data-bs-toggle="dropdown" aria-expanded="false" href="#"> Login </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" href="admin/login_reg.php">Admin</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="customer/login_reg.php">Customer</a>
-                                    </li>
-                                </ul>
-                            </div>
-                    </ul>
-                </div>
-        </nav>
-    </header>
-    <div id="preloader">
-        <div class="jumper">
-            <div></div>
-            <div></div>
-            <div></div>
+<header class="">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">
+                <h2>Online-<em>Cars</em></h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.php">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown dropdown-hover">
+                        <a class="nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false">Login</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="admin/login_reg.php">Admin</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="customer/login_reg.php">Customer</a>
+                                </li>
+                            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="banner header-text">
+    </nav>
+</header>
+<div class="banner header-text">
         <div class="owl-banner owl-carousel">
             <div class="banner-item-01">
                 <div class="text-content">
@@ -79,12 +78,10 @@
                 <div class="col-md-12">
                     <div class="section-heading">
                         <h2>Latest Cars</h2>
-                        <a href="#">view all products <i class="fa fa-angle-right"></i></a>
+                        <a href="customer/index.php" >view all products <i class="fa fa-angle-right"></i></a>
                     </div>
                 </div>
                 <?php // include database connection
-                global $conn;
-                include('config.php');
                 $output="";
                 $selQuery = "select * from car";
                 $exeQuery = mysqli_query($conn,$selQuery);
@@ -95,7 +92,8 @@
                     $description = $row['description'];
                     $photo = "assets/images/cars/" . $row['image'];
                     $url = $row['url'];
-                    $price = $row['currency'] . ' ' . $row['price'];
+                    $price =  $row['price'];
+                    $currency = $row['currency'];
                     $company_name = $row['company_name'];
                     $id = $row['id'];
 
@@ -103,7 +101,7 @@
                     $output .= '<div class="col-sm-4">
                     <h4 class="card-header">' . $name . ' ' . $model . '</h4>
                     <img class="img_size" width="350" height="240" src="' . $photo . '" alt="Card image top">
-                    <h5>' . number_format($price, 2, ',', ' ') . '</h5>
+                    <h5>'. $currency.' '. number_format($price, 2, ',', ' ') . '</h5>
                     <p>' . $description . '</p>
                     <a href="' . $url . '">' . $company_name . '</a>
                     <a href="customer/car_view.php?id=' . $id . '" class="btn btn-primary">Buy</a>
