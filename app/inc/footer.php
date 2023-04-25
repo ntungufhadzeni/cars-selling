@@ -3,7 +3,7 @@
         <div class="lightBg">
             <div class="footerCol">
                 <div class="copyrightCol">
-                    <p class="footer-text">© 2022 Copyright: Online-Cars</p>
+                    <p class="footer-text">© 2023 Copyright: Online-Cars</p>
                 </div>
             </div>
         </div>
