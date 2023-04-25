@@ -67,7 +67,7 @@ class Car
                 $searchResultHTML .= '
 			<div class="col-sm-4 col-lg-4 col-md-4">
 			<div class="product">
-			<a href='.$row['url'].'><img src="../assets/images/cars/'. $row['image'] .'" 
+			<a href="car_view.php?id=' . $row['id'].'"><img src="../assets/images/cars/'. $row['image'] .'" 
 alt="" width="200" height="160"></a>
 			<p><strong><a 
 href="car_view.php?id='.$row['id'].'">'.$row['maker'].' '. $row['model'] .' '. $row['year'] .'</a></strong></p>
