@@ -65,18 +65,15 @@ class Car
         if($totalResult > 0) {
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $searchResultHTML .= '
-			<div class="col-sm-4 col-lg-3 col-md-3">
+			<div class="col-sm-4 col-lg-4 col-md-4">
 			<div class="product">
-			<img src="../assets/images/cars/'. $row['image'] .'" 
-alt="" class="img-responsive" >
+			<a href='.$row['url'].'><img src="../assets/images/cars/'. $row['image'] .'" 
+alt="" width="200" height="160"></a>
 			<p><strong><a 
-href="car_view.php?id='.$row['id'].'">'.$row['maker'].' '. $row['model'] .'</a></strong></p>
+href="car_view.php?id='.$row['id'].'">'.$row['maker'].' '. $row['model'] .' '. $row['year'] .'</a></strong></p>
 			<h4 style="text-align:center;" class="text-danger" 
 >'. $row['currency'].' '. number_format($row['price'], 2, ',', ' ') .'</h4>
             <a href='.$row['url'].'>'.$row['company_name'].'</a>
-			<p>Maker : '. $row['maker'].'<br />
-			Model : '. $row['model'] .' <br />
-			Year : '. $row['year'] .'</p>
 			</div>
 			</div>';
             }
