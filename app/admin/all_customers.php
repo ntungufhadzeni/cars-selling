@@ -40,7 +40,7 @@ $result = mysqli_query($conn,$sql);
         <link rel="stylesheet" href="../assets/dis/simplePagination.css" />
         <link rel="stylesheet" href="../assets/css/style_search.css">
         <script src="../assets/js/search.js"></script>
-        <title>Online-cars</title>
+        <title>Customers</title>
     </head>
 <body>
 <header class="">
@@ -57,11 +57,11 @@ $result = mysqli_query($conn,$sql);
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <!--<li class="nav-item">
+                    <li class="nav-item">
                          <a class="nav-link" href="all_cars.php"> Cars
                              <span class="sr-only">(current)</span>
                          </a>
-                     </li>-->
+                     </li>
                     <li class="nav-item ">
                         <a class="nav-link" href="orders.php"> Orders
                             <span class="sr-only">(current)</span>

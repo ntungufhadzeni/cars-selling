@@ -2,10 +2,10 @@
 global $conn;
 require('../config.php');
 session_start();
-$id=$_SESSION['id'];
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     $email= htmlspecialchars($_POST['email']);
     $password= htmlspecialchars($_POST['password']);
+    $car_id = $_POST['car_id'];
 
     if(!empty($email) AND !empty($password)) {
         $sql = "SELECT * FROM customer WHERE email='$email'";
@@ -15,12 +15,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         if ($nor > 0) {
             $row = mysqli_fetch_assoc($result);
             if (password_verify($password, $row['password'])) {
-                if($row['customer_status'] == 1) {
+                if($row['status'] == 1) {
                     $_SESSION['admin_logged'] = false;
                     $_SESSION['customer_id'] = $row['id'];
                     $_SESSION['customer_name'] = $row['first_name'];
 
-                    header('location: car_view.php?id='.$id);
+                    header('location: car_view.php?id='.$car_id);
                 }
                 else {
                     $error_login= true;

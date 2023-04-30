@@ -35,7 +35,7 @@ else{
     <link rel="stylesheet" href="../assets/dis/simplePagination.css" />
     <link rel="stylesheet" href="../assets/css/style_search.css">
     <script src="../assets/js/search.js"></script>
-    <title>Online-cars</title>
+    <title>Cars</title>
 </head>
 <body>
 <header class="">

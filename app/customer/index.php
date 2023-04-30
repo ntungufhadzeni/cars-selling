@@ -47,7 +47,7 @@ else{
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#"> Profile
+                        <a class="nav-link" href="profile.php"> Profile
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>

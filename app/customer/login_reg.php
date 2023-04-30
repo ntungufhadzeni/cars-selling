@@ -23,7 +23,7 @@ if (isset($_POST['login'])) {
                         $_SESSION['admin_logged'] = false;
                         $_SESSION['customer_id'] = $row['id'];
                         $_SESSION['customer_name'] = $row['first_name'];
-
+                        $_SESSION['customer_email'] = $row['email'];
                         header('location: index.php');
                     } else {
                         $error_login = true;

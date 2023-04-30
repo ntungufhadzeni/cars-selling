@@ -4,7 +4,6 @@ include_once '../config.php';
 session_start();
 $name = '';
 $id=$_GET['id'];
-$_SESSION['vid'] = $id;
 $sql="select * from car where id='$id'";
 $result = mysqli_query($conn,$sql);
 $row = mysqli_fetch_assoc($result);
@@ -37,116 +36,17 @@ if($status != 1) {
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link href="../assets/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/css/bootstrap-slider.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../assets/css/fontawesome.css">
     <link rel="stylesheet" href="../assets/css/s.css">
     <link rel="stylesheet" href="../assets/css/owl.css">
     <link rel="stylesheet" href="../assets/css/stylesheet.css">
     <link rel="stylesheet" href="../assets/css/style_search.css">
     <script src="../assets/js/search.js"></script>
-    <style>
-        @import url(https://fonts.googleapis.com/css?family=Roboto);
-
-    /****** LOGIN MODAL ******/
-    .loginmodal-container {
-    padding: 30px;
-    max-width: 350px;
-    width: 100% !important;
-    background-color: #F7F7F7;
-    margin: 0 auto;
-    border-radius: 2px;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    font-family: roboto;
-    }
-
-    .loginmodal-container h1 {
-    text-align: center;
-    font-size: 1.8em;
-    font-family: roboto;
-    }
-
-    .loginmodal-container input[type=submit] {
-    width: 100%;
-    display: block;
-    margin-bottom: 10px;
-    position: relative;
-    }
-
-    .loginmodal-container input[type=text], input[type=password] {
-    height: 44px;
-    font-size: 16px;
-    width: 100%;
-    margin-bottom: 10px;
-    -webkit-appearance: none;
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    border-top: 1px solid #c0c0c0;
-    /* border-radius: 2px; */
-    padding: 0 8px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    }
-
-    .loginmodal-container input[type=text]:hover, input[type=password]:hover {
-    border: 1px solid #b9b9b9;
-    border-top: 1px solid #a0a0a0;
-    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-    }
-
-    .loginmodal {
-    text-align: center;
-    font-size: 14px;
-    font-family: 'Arial', sans-serif;
-    font-weight: 700;
-    height: 36px;
-    padding: 0 8px;
-    /* border-radius: 3px; */
-    /* -webkit-user-select: none;
-    user-select: none; */
-    }
-
-    .loginmodal-submit {
-    /* border: 1px solid #3079ed; */
-    border: 0px;
-    color: #fff;
-    text-shadow: 0 1px rgba(0,0,0,0.1);
-    background-color: #4d90fe;
-    padding: 17px 0px;
-    font-family: roboto;
-    font-size: 14px;
-    /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#4787ed)); */
-    }
-
-    .loginmodal-submit:hover {
-    /* border: 1px solid #2f5bb7; */
-    border: 0px;
-    text-shadow: 0 1px rgba(0,0,0,0.3);
-    background-color: #357ae8;
-    /* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
-    }
-
-    .loginmodal-container a {
-    text-decoration: none;
-    color: #666;
-    font-weight: 400;
-    text-align: center;
-    display: inline-block;
-    opacity: 0.6;
-    transition: opacity ease 0.5s;
-    }
-
-    .login-help{
-    font-size: 12px;
-    }
-    </style>
-
-    <title>Online-cars</title>
+    <title>Car: <?php echo($car_name) ?></title>
 </head>
 <body>
 <header class="">
@@ -181,7 +81,7 @@ if($status != 1) {
                     <?php
                     if(isset($_SESSION['customer_name'])){
                     echo ('<li class="nav-item ">
-                        <a class="nav-link" href="#"> Profile
+                        <a class="nav-link" href="profile.php"> Profile
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -202,14 +102,29 @@ if($status != 1) {
     </nav>
 </header>
 
-<div class="modal" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="loginmodal-container">
-            <h1>Login to Your Account</h1><br>
-            <form class="modal-content animate" action="login.php" method="post">
-                <input type="text" name="email" placeholder="email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit" class="btn btn-primary">Login</button>
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Login to Your Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="modal-body" action="login.php" method="post">
+                <input type="hidden" class="form-control" id="car_id" name="car_id" value="<?= $id; ?>">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
             </form>
         </div>
     </div>
@@ -300,12 +215,16 @@ if($status != 1) {
         <div class="col-md-5">
             <?php
             if(isset($_SESSION['customer_name'])){?>
-            <div style="margin-bottom: 20px"><a href="checkout.php?id=<?php echo $id; ?>" class='btn btn-primary'>Checkout</a></div>
+            <div style="margin-bottom: 20px"><a href="place_order.php?id=<?php echo $id; ?>" class='btn btn-primary'>Checkout</a></div>
             <?php }
             ?>
             <?php
             if(!isset($_SESSION['customer_name'])){?>
-                <button onclick="document.getElementById('login-modal').style.display='block'" class="btn btn-primary">Login before you checkout</button>
+                <div style="margin-bottom: 20px">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">
+                        Login before you checkout
+                    </button>
+                </div>
             <?php }
             ?>
         </div>

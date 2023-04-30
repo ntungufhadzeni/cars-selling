@@ -30,7 +30,7 @@ else{
     <link rel="stylesheet" href="../assets/css/stylesheet.css" />
     <link rel="stylesheet" href="../assets/css/style_search.css">
     <script src="../assets/js/search.js"></script>
-    <title>Online-cars</title>
+    <title>Add Car</title>
 </head>
 <body>
 <header class="">

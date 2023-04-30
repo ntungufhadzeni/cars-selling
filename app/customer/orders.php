@@ -58,7 +58,7 @@ else{
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#"> Profile
+                        <a class="nav-link" href="profile.php"> Profile
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
@@ -82,7 +82,6 @@ else{
     <div class="owl-banner owl-carousel">
         <div class="banner-item-01">
             <div class="text-content">
-                <!-- <h4>Online-Cars</h4> -->
                 <h2 style="color:white;">Online-Cars</h2>
             </div>
         </div>
