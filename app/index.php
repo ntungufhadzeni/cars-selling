@@ -102,7 +102,7 @@
                     <h4 class="card-header">' . $name . ' ' . $model . '</h4>
                     <img class="img_size" width="350" height="240" src="' . $photo . '" alt="Card image top">
                     <h5>'. $currency.' '. number_format($price, 2, ',', ' ') . '</h5>
-                    <p>' . $description . '</p>
+                    <p style="font-size: small">' . $description . '</p>
                     <a href="' . $url . '">' . $company_name . '</a>
                     <a href="customer/car_view.php?id=' . $id . '" class="btn btn-primary">Buy</a>
                 </div>';
@@ -120,10 +120,7 @@
                 $output .= '</div></div>';
                 echo $output;
                 ?>
-            </div>
-        </div>
     </div>
-
     <script type="text/javascript">
         $(document).ready(function() {
             // Add hover action for dropdowns

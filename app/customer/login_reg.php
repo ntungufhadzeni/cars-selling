@@ -61,35 +61,40 @@ elseif (isset($_POST['register'])) {
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             if (preg_match("/^0[1-9]\d{8}$/", $phone)) {
-                $x = strtolower($email);
-                $sql = "SELECT * FROM customer WHERE LOWER(email) = '$x' OR phone = '$phone';";
-
-                $result = mysqli_query($conn, $sql);
-                $nor = mysqli_num_rows($result);
-                if ($nor == 0) {
-                    if (preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$/", $password)) {
-                        if ($retype_password == $password) {
-                            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                            $sql = "INSERT INTO customer(first_name, surname, email, phone, address, province, password) 
-                                    VALUES ('$first_name', '$surname', '$email', '$phone', '$address', '$province', '$hashed_password')";
-                            mysqli_query($conn, $sql);
-                            $success = true;
-                            $error_reg = false;
-                            $success_msg = "Customer registered successfully";
-                            $_SESSION['msg_register'] = "register";
+                if (preg_match("/^[A-Za-z?\s\-']{2,50}$/", $first_name) && preg_match("/^[A-Za-z\s\-']{2,50}$/", $surname)) {
+                    $x = strtolower($email);
+                    $sql = "SELECT * FROM customer WHERE LOWER(email) = '$x' OR phone = '$phone';";
+                    $result = mysqli_query($conn, $sql);
+                    $nor = mysqli_num_rows($result);
+                    if ($nor == 0) {
+                        if (preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$/", $password)) {
+                            if ($retype_password == $password) {
+                                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                                $sql = "INSERT INTO customer(first_name,surname,email,phone,address,province,password) 
+                                    VALUES ('$first_name','$surname','$email','$phone','$address','$province','$hashed_password')";
+                                mysqli_query($conn, $sql);
+                                $success = true;
+                                $error_reg = false;
+                                $success_msg = "Customer registered successfully";
+                                $_SESSION['msg_register'] = "register";
+                            } else {
+                                $error_reg = true;
+                                $error_msg_reg = "Passwords don't match";
+                                $_SESSION['msg_register'] = "register";
+                            }
                         } else {
                             $error_reg = true;
-                            $error_msg_reg = "Passwords don't match";
+                            $error_msg_reg = "Password must be 8 characters long and include at least 1 uppercase, lowercase, numeric number, special character";
                             $_SESSION['msg_register'] = "register";
                         }
                     } else {
                         $error_reg = true;
-                        $error_msg_reg = "Password must be 8 characters long and include at least 1 uppercase, lowercase, numeric number, special character";
+                        $error_msg_reg = 'Customer already exists. Reset password if you forgot it.';
                         $_SESSION['msg_register'] = "register";
                     }
                 } else {
                     $error_reg = true;
-                    $error_msg_reg = 'Customer already exists. Reset password if you forgot it.';
+                    $error_msg_reg = 'Invalid name, surname or address';
                     $_SESSION['msg_register'] = "register";
                 }
             } else {
@@ -106,6 +111,7 @@ elseif (isset($_POST['register'])) {
         $error_reg = true;
         $error_msg_reg = 'All fields are required';
         $_SESSION['msg_register'] = "register";
+
     }
 }
 ?>

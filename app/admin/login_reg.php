@@ -39,74 +39,71 @@ if (isset($_POST['login'])) {
 
 }
 
-elseif (isset($_POST['register'])){
+elseif (isset($_POST['register'])) {
     $error_reg = false;
     $error_msg_reg = '';
     $success_msg = '';
     $success = false;
-    $name = trim(mysqli_real_escape_string($conn,$_POST['name']));
-    $surname = trim(mysqli_real_escape_string($conn,$_POST['surname']));
-    $email = trim(mysqli_real_escape_string($conn,$_POST['email']));
-    $phone = trim(mysqli_real_escape_string($conn,$_POST['phone']));
-    $password = trim(mysqli_real_escape_string($conn,$_POST['reg-password']));
-    $retype_password = trim(mysqli_real_escape_string($conn,$_POST['retype-password']));
+    $name = trim(mysqli_real_escape_string($conn, $_POST['name']));
+    $surname = trim(mysqli_real_escape_string($conn, $_POST['surname']));
+    $email = trim(mysqli_real_escape_string($conn, $_POST['email']));
+    $phone = trim(mysqli_real_escape_string($conn, $_POST['phone']));
+    $password = trim(mysqli_real_escape_string($conn, $_POST['reg-password']));
+    $retype_password = trim(mysqli_real_escape_string($conn, $_POST['retype-password']));
 
-    if(!empty($name)&&!empty($surname)&&!empty($email)&&!empty($phone)
-        &&!empty($password)&&!empty($retype_password)){
+    if (!empty($name) && !empty($surname) && !empty($email) && !empty($phone) && !empty($password) && !empty($retype_password)) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (preg_match("/^0[1-9]\d{8}$/", $phone)) {
+                if (preg_match("/^[A-Za-z\s\-']{2,50}$/", $name) && preg_match("/^[A-Za-z\s\-']{2,50}$/", $surname)) {
+                    $x = strtolower($email);
+                    $sql = "SELECT * from admin where lower(email) = '$x' or phone = '$phone';";
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
-            if(preg_match("/^0[1-9]\d{8}$/",$phone)){
-                $x = strtolower($email);
-                $sql ="SELECT * from  admin where  lower(email) = '$x' or phone = '$phone';";
-
-                $result = mysqli_query($conn,$sql);
-                $nor = mysqli_num_rows($result);
-                if($nor == 0) {
-                    if(preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$/",$password)){
-                        if($retype_password == $password) {
-                            $hashed_password = password_hash($password, PASSWORD_DEFAULT);;
-                            $sql = "INSERT INTO admin(first_name,surname,email,phone,password)
-                            VALUES('$name','$surname','$email','$phone','$hashed_password')";
-                            mysqli_query($conn, $sql);
-                            $success = true;
-                            $error_reg = false;
-                            $success_msg = "admin registered successfully";
-                            $_SESSION['admin_register'] = "register";
-                        }
-                        else{
+                    $result = mysqli_query($conn, $sql);
+                    $nor = mysqli_num_rows($result);
+                    if ($nor == 0) {
+                        if (preg_match("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$/", $password)) {
+                            if ($retype_password == $password) {
+                                $hashed_password = password_hash($password, PASSWORD_DEFAULT);;
+                                $sql = "INSERT INTO admin(first_name, surname, email, phone, address, password) VALUES('$name', '$surname', '$email', '$phone', '$address', '$hashed_password')";
+                                mysqli_query($conn, $sql);
+                                $success = true;
+                                $error_reg = false;
+                                $success_msg = "Admin registered successfully";
+                                $_SESSION['admin_register'] = "register";
+                            } else {
+                                $error_reg = true;
+                                $error_msg_reg = "Passwords don't match";
+                                $_SESSION['admin_register'] = "register";
+                            }
+                        } else {
                             $error_reg = true;
-                            $error_msg_reg = "Passwords don't match";
+                            $error_msg_reg = "Password must be 8 characters long and include at least 1 uppercase, lowercase, numeric number, special character";
                             $_SESSION['admin_register'] = "register";
                         }
-                    }
-                    else{
+                    } else {
                         $error_reg = true;
-                        $error_msg_reg = "Password must be 8 characters long and include at least 1 uppercase, lowercase, numeric number, special character";
+                        $error_msg_reg = 'Admin already exists. Reset password if you forgot it.';
                         $_SESSION['admin_register'] = "register";
                     }
-                }
-                else{
+                } else {
                     $error_reg = true;
-                    $error_msg_reg = 'Customer already exists. Reset password if you forgot it.';
+                    $error_msg_reg = "Invalid name, surname, or address";
                     $_SESSION['admin_register'] = "register";
                 }
-            }
-            else{
+            } else {
                 $error_reg = true;
                 $error_msg_reg = 'Invalid phone number';
                 $_SESSION['admin_register'] = "register";
             }
-        }
-        else{
+        } else {
             $error_reg = true;
             $error_msg_reg = 'Invalid email address';
-            $_SESSION['msg_register'] = "register";
+            $_SESSION['admin_register'] = "register";
         }
-    }
-    else{
+    } else {
         $error_reg = true;
         $error_msg_reg = 'All fields are required';
-        $_SESSION['msg_register'] = "register";
+        $_SESSION['admin_register'] = "register";
     }
 }
 
@@ -181,16 +178,16 @@ elseif (isset($_POST['register'])){
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link <?php
 
-                            if(!isset($_SESSION['msg_register'])){
+                            if(!isset($_SESSION['admin_register'])){
                                 echo "active";
-                                $_SESSION['msg_register'] = "login";
+                                $_SESSION['admin_register'] = "login";
                             }
-                            elseif($_SESSION['msg_register'] == "login"){
+                            elseif($_SESSION['admin_register'] == "login"){
                                 echo "active";
                             }
                             ?>" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Login</a>
                             <a class="nav-item nav-link  <?php
-                            if ($_SESSION['msg_register'] == "register")
+                            if ($_SESSION['admin_register'] == "register")
                             {
                                 echo "active";
                             }
@@ -201,7 +198,7 @@ elseif (isset($_POST['register'])){
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade <?php
 
-                        if($_SESSION['msg_register'] == "login"){
+                        if($_SESSION['admin_register'] == "login"){
                             echo "show active";
                         }
                         ?>" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -245,10 +242,10 @@ elseif (isset($_POST['register'])){
                             </div>
                         </div>
                         <div class="tab-pane fade <?php
-                        if ($_SESSION['msg_register'] == "register")
+                        if ($_SESSION['admin_register'] == "register")
                         {
                             echo "show active";
-                            unset($_SESSION['msg_register']);
+                            unset($_SESSION['admin_register']);
                         }
                         ?>" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <br><br>

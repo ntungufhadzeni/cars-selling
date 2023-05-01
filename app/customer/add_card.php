@@ -14,7 +14,7 @@ if(isset($_POST['action']) == 'card'){
 
     if(!empty($email) AND !empty($name) AND !empty($card_number) AND !empty($cvc) AND !empty($exp_month) AND !empty($exp_year)){
         if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            if(preg_match("/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/", $name)) {
+            if(preg_match("/^[A-Za-z\s\-']{2,50}$/", $name)) {
                 $card_type = validate_card($card_number);
                 if($card_type!=""){
                     if(preg_match ("/^\d{3}$/", $cvc)){
@@ -145,12 +145,8 @@ if(isset($_POST['action']) == 'card'){
 function validate_card($number)
 {
     $card_regexes = array(
-            "/^4d{12}(ddd){0,1}$/" => "Visa",
+            "/^4[0-9]{12}(?:[0-9]{3})?$/" => "Visa",
             "/^5[12345]\d{14}$/"       => "MasterCard",
-            "/^3[47]\d{13}$/"          => "Amex",
-            "/^6011\d{12}$/"           => "Discover",
-            "/^30[012345]\d{11}$/"     => "Diners",
-            "/^3[68]\d{12}$/"          => "Diners",
         );
     $card_type = "";
 
