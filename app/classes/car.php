@@ -68,7 +68,7 @@ class Car
 			<div class="col-sm-4 col-lg-4 col-md-4">
 			<div class="product">
 			<a href="car_view.php?id=' . $row['id'].'"><img src="../assets/images/cars/'. $row['image'] .'" 
-alt="" width="200" height="160"></a>
+alt="" width="200" height="150"></a>
 			<p><strong><a 
 href="car_view.php?id='.$row['id'].'">'.$row['maker'].' '. $row['model'] .' '. $row['year'] .'</a></strong></p>
 			<h4 style="text-align:center;" class="text-danger" 
