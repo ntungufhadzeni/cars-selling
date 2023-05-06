@@ -2,10 +2,9 @@
 global $conn;
 require('../config.php');
 session_start();
-if($_SERVER['REQUEST_METHOD'] == "POST"){
+if($_POST['action'] == 'login'){
     $email= htmlspecialchars($_POST['email']);
     $password= htmlspecialchars($_POST['password']);
-    $car_id = $_POST['car_id'];
 
     if(!empty($email) AND !empty($password)) {
         $sql = "SELECT * FROM customer WHERE email='$email'";
@@ -19,20 +18,40 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                     $_SESSION['admin_logged'] = false;
                     $_SESSION['customer_id'] = $row['id'];
                     $_SESSION['customer_name'] = $row['first_name'];
-
-                    header('location: car_view.php?id='.$car_id);
+                    $error_msg = 'Welcome! '. $row['first_name'];
+                    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            ' . $error_msg . '
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>';
                 }
                 else {
-                    $error_login= true;
-                    $error_msg_login = 'Your account has been suspended';
+                    $error_msg = 'Your account has been suspended';
+                    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ' . $error_msg . '
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>';
                 }
             } else {
-                $error_login = true;
-                $error_msg_login = 'Password wrong';
+                $error_msg = 'Wrong password';
+                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ' . $error_msg . '
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>';
             }
         } else {
-            $error_login= true;
-            $error_msg_login = 'Email not recognized';
+            $error_msg = 'Email not recognized';
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ' . $error_msg . '
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>';
         }
     }
 }
