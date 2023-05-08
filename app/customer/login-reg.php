@@ -361,7 +361,7 @@ your account and change your security password as someone may have guessed it.</
                                         </div>
                                         <div class="form-group">
                                             <label for="province">Province<span style="color:red">*</span></label>
-                                            <select class="form-control form-control-lg" name="province" id="province" required>
+                                            <select class="form-control" name="province" id="province" required>
                                                 <option value="" class="text-center">--- Select Province ---</option>
                                                 <option value="Eastern Cape">Eastern Cape</option>
                                                 <option value="Free State">Free State</option>
@@ -375,7 +375,7 @@ your account and change your security password as someone may have guessed it.</
                                         </div>
                                         <div class="form-group">
                                             <label for="address">Address<span style="color:red">*</span></label>
-                                            <textarea id="address" name="address" style="resize:none" rows="4" cols="53" required></textarea>
+                                            <textarea class="form-control" id="address" name="address" style="resize:none" rows="4" cols="53" required></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="reg-password">Password<span style="color:red">*</span></label>
