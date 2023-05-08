@@ -12,15 +12,20 @@ $seller = $row['company_name'];
 $make = $row['maker'];
 $model = $row['model'];
 $car_name = $make . " " . $model;
-$price = $row['currency'] . '' . number_format($row['price'], 2, ',', ' ');
+$description = $row['description'];
+$price = $row['price'];
 $color = $row['color'];
 $year = $row['year'];
 $transmission = $row['transmission'];
+$currency = $row['currency'];
 $engine_capacity = $row['engine_capacity'];
 $status = $row['status'];
 $fuel = $row['fuel'];
-$mileage = number_format($row['mileage'], 0, ',', ' ');;
-
+$mileage = number_format($row['mileage'], 0, ',', ' ');
+$price_f = $currency . ' ' . number_format($price, 2, ',', ' ');
+if ($currency != 'R') {
+    $price_f = $currency . ' ' . number_format($price, 2, ',', ' ') . ' (R ' . number_format($price * 18.09, 2, ',', ' ') . ')';
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +37,7 @@ $mileage = number_format($row['mileage'], 0, ',', ' ');;
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link href="../assets/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/stylesheet.css">
@@ -115,6 +121,7 @@ $mileage = number_format($row['mileage'], 0, ',', ' ');;
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a class="btn btn-primary" href='<?php $_SESSION['msg_register'] = "register"; echo ("login-reg.php"); ?>'>Register</a>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </div>
                 </form>
@@ -126,7 +133,7 @@ $mileage = number_format($row['mileage'], 0, ',', ' ');;
         </div>
     </div>
     <div style="margin-bottom: 80px;"></div>
-    <div class="container" style="background-color:#CCF;">
+    <div class="container" style="background-color:#eaeff1; border-radius: 20px;">
         <h1 class="ptext " style="color:#333333;margin-top:90px; "><b>Details</b>
         </h1>
         <!-- Display image work-->
@@ -147,6 +154,9 @@ $mileage = number_format($row['mileage'], 0, ',', ' ');;
                 <label id="car-name" for="car-name"> <?php echo ($car_name); ?></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
         </div>
+        <p>
+            <?php echo $description; ?>
+        </p>
         <div class="row" style="margin-bottom:20px;">
             <div class="col-xs-offset-1 col-md-4 ">
                 <hr>
@@ -182,7 +192,7 @@ $mileage = number_format($row['mileage'], 0, ',', ' ');;
                 <label class="pull-right" id="fuel" for="fuel"><?php echo ($fuel); ?></label>
                 <hr>
                 <label id="price" for="price">Price </label>
-                <label class="pull-right" id="price" for="price"><?php echo ($price); ?></label>
+                <label class="pull-right" id="price" for="price"><?php echo ($price_f); ?></label>
                 <hr>
             </div>
         </div>
@@ -207,32 +217,31 @@ $mileage = number_format($row['mileage'], 0, ',', ' ');;
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-     $(document).ready(function(){
-$("#loginFrm").submit(function (e) {
+$(document).ready(function(){
+  $("#loginFrm").submit(function (e) {
     e.preventDefault();
-  $.ajax({
-    url: "login.php",
-    method: "post",
-    data: $("form").serialize() + "&action=login",
-    success: function (response) {
+    $.ajax({
+      url: "login.php",
+      method: "post",
+      data: $("form").serialize() + "&action=login",
+      success: function (response) {
+        let responseData = JSON.parse(response);
+        let error = responseData['error'];
         $("#login-modal").modal('hide');
-      $("#loginFrm").find("input,textarea,select").val("").end();
-      $("#login-msg").html(response);
-      setTimeout(() => {
-  document.location.reload();
-}, 3000);
-    },
+        $("#loginFrm").find("input,textarea,select").val("").end();
+        $("#login-msg").html(responseData['msg']);
+        if(!error){
+            setTimeout(() => {
+          document.location.reload();
+        }, 3000);
+        }
+      },
+    });
   });
-});
 });
 </script>
     <?php include('../inc/footer.php'); ?>

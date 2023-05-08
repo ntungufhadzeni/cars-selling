@@ -60,23 +60,51 @@ class Car
             $sqlQuery .= "
         AND (LOWER(maker) LIKE '%".$search."%' OR LOWER(model) LIKE '%".$search."%')";
         }
-        $sqlQuery .= " ORDER BY price;";
+        $sqlQuery .= " ORDER BY price ASC;";
         $result = mysqli_query($this->dbConnect, $sqlQuery);
         $totalResult = mysqli_num_rows($result);
         $searchResultHTML = '';
         if($totalResult > 0) {
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $name = $row['maker'];
+                $model = $row['model'];
+                $description = $row['description'];
+                $photo = "../assets/images/cars/" . $row['image'];
+                $url = $row['url'];
+                $price = $row['price'];
+                $year = $row['year'];
+                $transmission = $row['transmission'];
+                $fuel = $row['fuel'];
+                $currency = $row['currency'];
+                $mileage = number_format($row['mileage'], 0, ',', ' ');
+                $price_f = $currency . ' ' . number_format($price, 2, ',', ' ');
+                if ($currency != 'R') {
+                    $price_f = $currency . ' ' . number_format($price, 2, ',', ' ') . ' (R ' . number_format($price * 18.09, 2, ',', ' ') . ')';
+                }
+                $company_name = $row['company_name'];
+                $id = $row['id'];
                 $searchResultHTML .= '
-        <div class="col-sm-4 col-lg-4 col-md-4">
-            <div class="product">
-                <a href="car-view.php?id=' . $row['id'] . '">
-                    <img src="../assets/images/cars/' . $row['image'] . '" alt="" style="width: 100%; height: 200px;">
-                </a>
-                <p style="text-align:center;" class="car"><strong><a  href="car-view.php?id=' . $row['id'] . '">' . $row['maker'] . ' ' . $row['model'] . ' ' . $row['year'] . '</a></strong></p>
-                <p style="text-align:center;" class="text-danger">' . $row['currency'] . ' ' . number_format($row['price'], 2, ',', ' ') . '</p>
-                <p style="text-align:center;"><a href="' . $row['url'] . '">' . $row['company_name'] . '</a></p>
+    <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <div class="car-container">
+            <div class="car-card">
+                <a href="car-view.php?id=' . $id . '"><img class="car-img" src="' . $photo . '" alt="' . $name . ' ' . $model . '"></a>
+                <div class="card__details">
+                    <span class="tag">' . $company_name . '</span>
+                    <span class="tag">' . $mileage . ' km</span>
+                    <span class="tag">' . $year . '</span>
+                    <span class="tag">' . $fuel . '</span>
+                    <span class="tag">' . $transmission . '</span>
+                    <div class="car-name">' . $name . ' ' . $model . '</div>
+                    <h5 class="text-danger">' . $price_f . '</h5>
+                    <p class="car-p">' . $description . '</p><br>
+                    <div>
+                        <a class="car-button" href="' . $url . '">Find out more</a>
+                        <a class="car-button" href="car-view.php?id=' . $id . '">Buy</a>
+                    </div>
+                </div>
             </div>
-        </div>';
+        </div>
+    </div>'; 
             }
         } else {
             $searchResultHTML = '<h3>No car found.</h3>';

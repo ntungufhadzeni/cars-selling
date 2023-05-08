@@ -4,6 +4,7 @@ global $conn;
 require '../config.php';
 $name = '';
 $customer_id = '';
+$card = '';
 if (isset($_SESSION['customer_name'])) {
     $name = $_SESSION['customer_name'];
     $customer_id = $_SESSION['customer_id'];
@@ -12,6 +13,11 @@ if (isset($_SESSION['customer_name'])) {
     $row = mysqli_fetch_assoc($result);
     $totalResult = mysqli_num_rows($result);
     if ($totalResult > 0) {
+        $card_number = $row['card_number'];
+        $card_type = $row['card_type'];
+        $exp_month = $row['exp_month'];
+        $exp_year = $row['exp_year'];
+        $card = $card_type . ': ' . ccMasking($card_number) . ' Exp: ' . $exp_month . '/' . $exp_year;
         $hasCard = true;
     } else {
         $hasCard = false;
@@ -34,6 +40,11 @@ if ($row['currency'] != 'R') {
 } else {
     $shipping = 'R0,00';
     $grand_total = (int) $price;
+}
+
+function ccMasking($number, $maskingCharacter = 'X')
+{
+    return substr($number, 0, 4) . str_repeat($maskingCharacter, strlen($number) - 8) . substr($number, -4);
 }
 
 ?>
@@ -114,10 +125,10 @@ if ($row['currency'] != 'R') {
                         <input type="email" name="email" class="form-control" placeholder="Enter email" required>
                     </div>
                     <div class="form-group">
-                        <input type="tel" name="phone" class="form-control" placeholder="Enter phone" required>
+                        <input type="tel" name="phone" class="form-control" placeholder="Enter phone" minlength="10" maxlength="10" required>
                     </div>
                     <div class="form-group">
-                        <textarea name="address" class="form-control" rows="3" cols="10" placeholder="Enter delivery address here..."></textarea>
+                        <textarea name="address" class="form-control" rows="3" cols="10" placeholder="Enter delivery address here..." required></textarea>
                     </div>
                     <h6 class="text-center lead">Select Payment Mode</h6>
                     <div class="form-group">
@@ -126,7 +137,7 @@ if ($row['currency'] != 'R') {
                             <option value="Bank Deposit">Bank Deposit</option>
                             <?php
                             if ($hasCard) {
-                                echo '<option value="Debit/Credit Card">Debit/Credit Card</option>';
+                                echo '<option value="Debit/Credit Card">'.$card.'</option>';
                             } else {
                                 echo '<option value="No card">Debit/Credit Card</option>';
                             }
@@ -141,13 +152,9 @@ if ($row['currency'] != 'R') {
             </div>
         </div>
     </div>
-
-                            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -193,21 +200,21 @@ if ($row['currency'] != 'R') {
                 </div>
                 <div class="form-group">
                     <label for="card_num">Card Number</label>
-                    <input type="text" class="form-control card-number" id="card_num" name="card_num" placeholder="Card Number" required>
+                    <input type="text" class="form-control card-number" id="card_num" name="card_num" placeholder="Card Number" minlength="16" maxlength="16" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="cvc">CVC</label>
-                        <input type="text" class="form-control card-cvc" id="cvc" name="cvc" placeholder="CVC" required>
+                        <input type="text" class="form-control card-cvc" id="cvc" name="cvc" placeholder="CVC" minlength="3" maxlength="3" required>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="exp_date">Expiration (MM/YYYY)</label>
                         <div class="form-row">
                             <div class="col-md-6">
-                                <input type="text" class="form-control card-expiry-month" id="exp_month" name="exp_month" placeholder="MM" required>
+                                <input type="text" class="form-control card-expiry-month" id="exp_month" name="exp_month" placeholder="MM" minlength="2" maxlength="2" required>
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control card-expiry-year" id="exp_year" name="exp_year" placeholder="YYYY" required>
+                                <input type="text" class="form-control card-expiry-year" id="exp_year" name="exp_year" placeholder="YYYY" minlength="4" maxlength="4"required>
                             </div>
                         </div>
                     </div>

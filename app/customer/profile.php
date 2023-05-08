@@ -193,21 +193,21 @@ function ccMasking($number, $maskingCharacter = 'X')
                         </div>
                         <div class="form-group">
                             <label for="card_num">Card Number</label>
-                            <input type="text" class="form-control card-number" id="card_num" name="card_num" placeholder="Card Number" required>
+                            <input type="text" class="form-control card-number" id="card_num" name="card_num" placeholder="Card Number" minlength="16" maxlength="16" required>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="cvc">CVC</label>
-                                <input type="text" class="form-control card-cvc" id="cvc" name="cvc" placeholder="CVC" required>
+                                <input type="text" class="form-control card-cvc" id="cvc" name="cvc" placeholder="CVC" minlength="3" maxlength="3" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="exp_date">Expiration (MM/YYYY)</label>
                                 <div class="form-row">
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control card-expiry-month" id="exp_month" name="exp_month" placeholder="MM" required>
+                                        <input type="text" class="form-control card-expiry-month" id="exp_month" name="exp_month" placeholder="MM" minlength="2" maxlength="2" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control card-expiry-year" id="exp_year" name="exp_year" placeholder="YYYY" required>
+                                        <input type="text" class="form-control card-expiry-year" id="exp_year" name="exp_year" placeholder="YYYY" minlength="4" maxlength="4" required>
                                     </div>
                                 </div>
                             </div>
@@ -237,15 +237,15 @@ function ccMasking($number, $maskingCharacter = 'X')
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="old-password">Old Password</label>
-                            <input type="password" class="form-control" id="old-password" name="old-password" placeholder="Old Password" required>
+                            <input type="password" class="form-control" id="old-password" name="old-password" placeholder="Old Password" minlength="8" required>
                         </div>
                         <div class="form-group">
                             <label for="new-password">New Password</label>
-                            <input type="password" class="form-control email" id="new-password" name="new-password" placeholder="New Password" required>
+                            <input type="password" class="form-control email" id="new-password" name="new-password" placeholder="New Password" minlength="8" required>
                         </div>
                         <div class="form-group">
                             <label for="retype-password">Retype New Password</label>
-                            <input type="password" class="form-control card-number" id="retype-password" name="retype-password" placeholder="Retype New Password" required>
+                            <input type="password" class="form-control card-number" id="retype-password" name="retype-password" placeholder="Retype New Password" minlength="8" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -256,14 +256,9 @@ function ccMasking($number, $maskingCharacter = 'X')
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.0/bootstrap-slider.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
     $("#paymentFrm").submit(function (e) {

@@ -36,9 +36,11 @@ if (isset($_POST['action']) == 'order') {
 								<h4>Your phone : ' . $phone . '</h4>
 								<h4>Total Amount paid : ' . number_format($grand_total, 2, ',', ' ') . '</h4>
 								<h4>Payment mode : ' . $pmode . '</h4>
+                                <h4 class="text-success">Bank account details has been sent to: ' . $email . '</h4>
 						  </div>';
                     } else {
-                        if ($pmode == "No card" && validate_card_info()) {
+                        $card = validate_card_info();
+                        if ($pmode == "No card" && $card != '') {
                             $pmode = "Debit/Credit Card";
                         }
 
@@ -57,6 +59,7 @@ if (isset($_POST['action']) == 'order') {
 								<h4>Your phone : ' . $phone . '</h4>
 								<h4>Total Amount paid : ' . number_format($grand_total, 2, ',', ' ') . '</h4>
 								<h4>Payment mode : ' . $pmode . '</h4>
+                                <h4>Card : ' . $card . '</h4>
 						  </div>';
                         } else {
                             $error_msg .= 'There was an issue placing order. Bank Card declined';
@@ -134,27 +137,28 @@ function validate_card_info()
                     if (preg_match("/^\d{3}$/", $cvc)) {
                         if (preg_match("/^(0[1-9]|1[0-2])$/", $exp_month)) {
                             if (preg_match("/^202[3-9]|203\d$/", $exp_year)) {
-                                return true;
+                                $card = $card_type . ': ' . ccMasking($card_number) . ' Exp: ' . $exp_month . '/' . $exp_year;
+                                return $card;
                             } else {
-                                return false;
+                                return '';
                             }
                         } else {
-                            return false;
+                            return '';
                         }
                     } else {
-                        return false;
+                        return '';
                     }
                 } else {
-                    return false;
+                    return '';
                 }
             } else {
-                return false;
+                return '';
             }
         } else {
-            return false;
+            return '';
         }
     } else {
-        return false;
+        return '';
     }
 }
 
@@ -173,5 +177,10 @@ function validate_card($number)
         }
     }
     return $card_type;
+}
+
+function ccMasking($number, $maskingCharacter = 'X')
+{
+    return substr($number, 0, 4) . str_repeat($maskingCharacter, strlen($number) - 8) . substr($number, -4);
 }
 
