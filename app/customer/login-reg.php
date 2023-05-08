@@ -362,7 +362,7 @@ your account and change your security password as someone may have guessed it.</
                                         <div class="form-group">
                                             <label for="province">Province<span style="color:red">*</span></label>
                                             <select class="form-control" name="province" id="province" required>
-                                                <option value="" class="text-center">--- Select Province ---</option>
+                                                <option value="" class="text-center" disabled>--- Select Province ---</option>
                                                 <option value="Eastern Cape">Eastern Cape</option>
                                                 <option value="Free State">Free State</option>
                                                 <option value="Gauteng">Gauteng</option>
