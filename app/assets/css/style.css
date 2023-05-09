@@ -1094,6 +1094,11 @@ footer .inner-content p a {
 	border-radius: 12px;
 	height: 214px;
 	object-fit: cover;
+	transition: 0.5s all ease-in-out;
+}
+
+.car-img:hover {
+	transform: scale(1.5);
 }
 
 .car-container {
@@ -1122,7 +1127,6 @@ footer .inner-content p a {
 .tag {
 	padding: 4px 8px;
 	border: 1px solid #e5eaed;
-
 	border-radius: 50px;
 	font-size: 12px;
 	font-weight: 600;
