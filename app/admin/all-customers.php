@@ -53,11 +53,6 @@ $result = mysqli_query($conn, $sql);
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="all-cars.php"> Cars
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
                         <li class="nav-item ">
                             <a class="nav-link" href="orders.php"> Orders
                                 <span class="sr-only">(current)</span>
