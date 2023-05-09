@@ -73,8 +73,8 @@ $result = mysqli_query($conn, $sql);
         </div>
     </div>
     <div style="margin-bottom: 50px;"></div>
-    <h1>Customers</h1>
     <div class="container" style=" margin-top:90px;">
+        <h1>Customers</h1>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
