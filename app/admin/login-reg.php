@@ -25,7 +25,7 @@ if (isset($_POST['login'])) {
                     header('location:all-customers.php');
                 } else {
                     $error_login = true;
-                    $error_msg_login = 'Password wrong';
+                    $error_msg_login = 'Wrong password';
                 }
             } else {
                 $error_login = true;
