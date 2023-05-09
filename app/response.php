@@ -24,10 +24,11 @@ $rs_result = mysqli_query($conn, $sql);
         $transmission = $row['transmission'];
         $fuel = $row['fuel'];
         $currency = $row['currency'];
-        $mileage = number_format($row['mileage'], 0, ',', ' ');
+        $mileage_f = number_format($row['mileage'], 0, ',', ' ') . ' km';
         $price_f = $currency . ' ' . number_format($price, 2, ',', ' ');
         if ($currency != 'R') {
             $price_f = $currency . ' ' . number_format($price, 2, ',', ' ') . ' (R ' . number_format($price * 18.09, 2, ',', ' ') . ')';
+            $mileage_f = number_format($row['mileage'] * 1.60934, 0, ',', ' ') . ' km';
         }
         $company_name = $row['company_name'];
         $id = $row['id'];
@@ -41,7 +42,7 @@ $rs_result = mysqli_query($conn, $sql);
                         <span class="tag">
                             <?php echo ($company_name); ?>
                         </span>
-                        <span class="tag"><?php echo ($mileage); ?> km</span>
+                        <span class="tag"><?php echo ($mileage_f); ?></span>
                         <span class="tag"><?php echo ($year); ?></span>
                         <span class="tag"><?php echo ($fuel); ?></span>
                         <span class="tag"><?php echo ($transmission); ?>

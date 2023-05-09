@@ -108,7 +108,6 @@ function ccMasking($number, $maskingCharacter = 'X')
         <div class="row justify-content-center">
             <div class="col-lg-6 px-4 pb-4" id="order">
                 <h4 class="text-center text-info p-2">Complete your order!</h4>
-                <div id="error"></div>
                 <div class="jumbotron p-3 mb-2 text-center">
                     <h6 class="lead"><b>Car : </b><?= $item; ?></h6>
                     <h6 class="lead"><b>Shipping Costs : </b><?= $shipping; ?></h6>
@@ -145,6 +144,7 @@ function ccMasking($number, $maskingCharacter = 'X')
                         </select>
                     </div>
                     <div id="card"></div>
+                    <div id="error"></div>
                     <div class="form-group">
                         <input type="submit" name="submit" value="Place Order" class="btn btn-danger btn-block">
                     </div>

@@ -39,7 +39,9 @@ if (isset($_POST['action']) == 'order') {
                                 <h4 class="text-success">Bank account details has been sent to: ' . $email . '</h4>
 						  </div>';
                     } else {
-                        $card = validate_card_info();
+                        $arr = validate_card_info();
+                        $card = $arr['card'];
+                        $card_msg = $arr['error'];
                         if ($pmode == "No card" && $card != '') {
                             $pmode = "Debit/Credit Card";
                         }
@@ -59,10 +61,10 @@ if (isset($_POST['action']) == 'order') {
 								<h4>Your phone : ' . $phone . '</h4>
 								<h4>Total Amount paid : ' . number_format($grand_total, 2, ',', ' ') . '</h4>
 								<h4>Payment mode : ' . $pmode . '</h4>
-                                <h4>Card : ' . $card . '</h4>
+                                <h4>Bank Card : ' . $card . '</h4>
 						  </div>';
                         } else {
-                            $error_msg .= 'There was an issue placing order. Bank Card declined';
+                            $error_msg .= 'There was an issue placing order. Bank Card declined. '. $card_msg;
                             $error = true;
                             $msg = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             ' . $error_msg . '
@@ -137,28 +139,61 @@ function validate_card_info()
                     if (preg_match("/^\d{3}$/", $cvc)) {
                         if (preg_match("/^(0[1-9]|1[0-2])$/", $exp_month)) {
                             if (preg_match("/^202[3-9]|203\d$/", $exp_year)) {
-                                $card = $card_type . ': ' . ccMasking($card_number) . ' Exp: ' . $exp_month . '/' . $exp_year;
-                                return $card;
+                                $current_date = new DateTime();
+                                $expiration_date = new DateTime($exp_year . '-' . $exp_month . '-01');
+                                if ($current_date < $expiration_date) {
+                                    $card = $card_type . ': ' . ccMasking($card_number) . ' Exp: ' . $exp_month . '/' . $exp_year;
+                                    return array(
+                                        'card' => $card,
+                                        'error' => 'Card purchase was successfully'
+                                    );
+                                } else {
+                                    return array(
+                                        'card' => '',
+                                        'error' => 'Card has expired'
+                                    );
+                                }
                             } else {
-                                return '';
+                                return array(
+                                    'card' => '',
+                                    'error' => 'Invalid expiry year'
+                                );
                             }
                         } else {
-                            return '';
+                            return array(
+                                'card' => '',
+                                'error' => 'Invalid expiry month'
+                            );
                         }
                     } else {
-                        return '';
+                        return array(
+                            'card' => '',
+                            'error' => 'Invalid CVC number'
+                        );
                     }
                 } else {
-                    return '';
+                    return array(
+                        'card' => '',
+                        'error' => 'Unknown card type. We only accept MasterCard and Visa'
+                    );
                 }
             } else {
-                return '';
+                return array(
+                    'card' => '',
+                    'error' => 'Invalid card holder name'
+                );
             }
         } else {
-            return '';
+            return array(
+                'card' => '',
+                'error' => 'Invalid email address'
+            );
         }
     } else {
-        return '';
+        return array(
+            'card' => '',
+            'error' => 'All fields required'
+        );
     }
 }
 

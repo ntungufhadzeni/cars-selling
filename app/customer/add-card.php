@@ -20,20 +20,33 @@ if(isset($_POST['action']) == 'card'){
                     if (preg_match("/^\d{3}$/", $cvc)) {
                         if (preg_match("/^(0[1-9]|1[0-2])$/", $exp_month)) {
                             if (preg_match("/^202[3-9]|203\d$/", $exp_year)) {
-                                $sql = "INSERT INTO debit_card(customer_id,card_holder,card_number,cvc,exp_month,exp_year,email,card_type) ";
-                                $sql .= "VALUES('$customer_id','$name','$card_number','$cvc','$exp_month','$exp_year','$email','$card_type')";
-                                $result = mysqli_query($conn, $sql);
-                                if ($result) {
-                                    $error_card_msg = 'Card added successfully';
-                                    $error = false;
-                                    $msg = '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                $current_date = new DateTime();
+                                $expiration_date = new DateTime($exp_year.'-'.$exp_month.'-01');
+                                if ($current_date < $expiration_date) {
+                                    $sql = "INSERT INTO debit_card(customer_id,card_holder,card_number,cvc,exp_month,exp_year,email,card_type) ";
+                                    $sql .= "VALUES('$customer_id','$name','$card_number','$cvc','$exp_month','$exp_year','$email','$card_type')";
+                                    $result = mysqli_query($conn, $sql);
+                                    if ($result) {
+                                        $error_card_msg = 'Card added successfully';
+                                        $error = false;
+                                        $msg = '<div class="alert alert-success alert-dismissible fade show" role="alert">
             ' . $error_card_msg . '
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>';
-                                } else {
-                                    $error_card_msg = 'There was an issue adding a card';
+                                    } else {
+                                        $error_card_msg = 'There was an issue adding a card';
+                                        $error = true;
+                                        $msg = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ' . $error_card_msg . '
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>';
+                                    }
+                                } else{
+                                    $error_card_msg = 'Card has expired';
                                     $error = true;
                                     $msg = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             ' . $error_card_msg . '
@@ -43,7 +56,7 @@ if(isset($_POST['action']) == 'card'){
         </div>';
                                 }
                             } else {
-                                $error_card_msg = 'Invalid year';
+                                $error_card_msg = 'Invalid expiry year';
                                 $error = true;
                                 $msg = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             ' . $error_card_msg . '
@@ -53,7 +66,7 @@ if(isset($_POST['action']) == 'card'){
         </div>';
                             }
                         } else {
-                            $error_card_msg = 'Invalid month';
+                            $error_card_msg = 'Invalid expiry month';
                             $error = true;
                             $msg = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             ' . $error_card_msg . '
@@ -73,7 +86,7 @@ if(isset($_POST['action']) == 'card'){
         </div>';
                     }
                 } else {
-                    $error_card_msg = 'Invalid card number';
+                    $error_card_msg = 'Unknown card type. We only accept MasterCard and Visa';
                     $error = true;
                     $msg = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
             ' . $error_card_msg . '
