@@ -1183,3 +1183,15 @@ footer .inner-content p a {
 	background-color: #0077ff;
 	color: #e0efff;
 }
+
+input:invalid{
+	border-color: red;
+}
+
+input:valid {
+	border-color: green;
+}
+
+input:disabled {
+	opacity: 0.5;
+}

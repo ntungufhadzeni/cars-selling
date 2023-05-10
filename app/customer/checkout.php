@@ -125,10 +125,10 @@ function validate_card_info()
 {
     $email = htmlspecialchars($_POST['email-card']);
     $name = htmlspecialchars($_POST['name-card']);
-    $card_number = htmlspecialchars($_POST['card_num']);
+    $card_number = htmlspecialchars($_POST['card-num']);
     $cvc = htmlspecialchars($_POST['cvc']);
-    $exp_month = htmlspecialchars($_POST['exp_month']);
-    $exp_year = htmlspecialchars($_POST['exp_year']);
+    $exp_month = htmlspecialchars($_POST['exp-month']);
+    $exp_year = htmlspecialchars($_POST['exp-year']);
     $card_type = "";
 
     if (!empty($email) and !empty($name) and !empty($card_number) and !empty($cvc) and !empty($exp_month) and !empty($exp_year)) {

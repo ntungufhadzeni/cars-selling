@@ -185,29 +185,29 @@ function ccMasking($number, $maskingCharacter = 'X')
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Card Holder</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Card Holder" required>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Card Holder" pattern="^[A-Za-z\s\-']{2,50}$" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control email" id="email" name="email" placeholder="Email" required>
+                            <input type="text" class="form-control email" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" required>
                         </div>
                         <div class="form-group">
                             <label for="card_num">Card Number</label>
-                            <input type="text" class="form-control card-number" id="card_num" name="card_num" placeholder="Card Number" minlength="16" maxlength="16" required>
+                            <input type="text" class="form-control card-number" id="card_num" name="card_num" placeholder="Card Number" pattern="^\d{16}$" maxlength="16" required>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="cvc">CVC</label>
-                                <input type="text" class="form-control card-cvc" id="cvc" name="cvc" placeholder="CVC" minlength="3" maxlength="3" required>
+                                <input type="text" class="form-control card-cvc" id="cvc" name="cvc" placeholder="CVC" pattern="^\d{3}$" maxlength="3" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="exp_date">Expiration (MM/YYYY)</label>
                                 <div class="form-row">
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control card-expiry-month" id="exp_month" name="exp_month" placeholder="MM" minlength="2" maxlength="2" required>
+                                        <input type="text" class="form-control card-expiry-month" id="exp_month" name="exp_month" placeholder="MM" pattern="^(0[1-9]|1[0-2])$" minlength="2" maxlength="2" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control card-expiry-year" id="exp_year" name="exp_year" placeholder="YYYY" minlength="4" maxlength="4" required>
+                                        <input type="text" class="form-control card-expiry-year" id="exp_year" name="exp_year" placeholder="YYYY" pattern="^202[3-9]|203\d$" minlength="4" maxlength="4" required>
                                     </div>
                                 </div>
                             </div>
@@ -237,15 +237,15 @@ function ccMasking($number, $maskingCharacter = 'X')
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="old-password">Old Password</label>
-                            <input type="password" class="form-control" id="old-password" name="old-password" placeholder="Old Password" minlength="8" required>
+                            <input type="password" class="form-control" id="old-password" name="old-password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$" placeholder="Old Password" minlength="8" required>
                         </div>
                         <div class="form-group">
                             <label for="new-password">New Password</label>
-                            <input type="password" class="form-control email" id="new-password" name="new-password" placeholder="New Password" minlength="8" required>
+                            <input type="password" class="form-control email" id="new-password" name="new-password" oninput="checkOldNewPasswordMatch();" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$" placeholder="New Password" minlength="8" required>
                         </div>
                         <div class="form-group">
                             <label for="retype-password">Retype New Password</label>
-                            <input type="password" class="form-control card-number" id="retype-password" name="retype-password" placeholder="Retype New Password" minlength="8" required>
+                            <input type="password" class="form-control card-number" id="retype-password" name="retype-password" oninput="checkPasswordMatch();" placeholder="Retype New Password" minlength="8" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -295,6 +295,30 @@ $("#passwordFrm").submit(function (e) {
   });
 });
 });
+</script>
+<script>
+function checkPasswordMatch() {
+    let password1 = document.getElementById("new-password").value;
+    let password2 = document.getElementById("retype-password").value;
+
+    if (password1 != password2) {
+        document.getElementById("password2").setCustomValidity("Passwords do not match");
+    } else {
+        document.getElementById("password2").setCustomValidity("");
+    }
+}
+</script>
+<script>
+function checkOldNewPasswordMatch() {
+    let password1 = document.getElementById("old-password").value;
+    let password2 = document.getElementById("new-password").value;
+
+    if (password1 != password2) {
+        document.getElementById("password2").setCustomValidity("");
+    } else {
+        document.getElementById("password2").setCustomValidity("Passwords match");
+    }
+}
 </script>
     <?php include('../inc/footer.php'); ?>
     

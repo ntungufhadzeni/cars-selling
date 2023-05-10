@@ -201,7 +201,7 @@ if (isset($_POST['login'])) {
                                     <form method="post">
                                         <div class="form-group">
                                             <label for="email">Email<span style="color:red">*</span></label>
-                                            <label for="Email"></label><input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                                            <label for="Email"></label><input type="email" name="email" id="email" class="form-control" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="password">Password<span style="color:red">*</span></label>
@@ -248,27 +248,27 @@ if (isset($_POST['login'])) {
                                     <form method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="name">First Names<span style="color:red">*</span></label>
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
+                                            <input type="text" name="name" id="name" class="form-control" placeholder="Name" pattern="^[A-Za-z?\s\-']{2,50}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="surname">Surname<span style="color:red">*</span></label>
-                                            <input type="text" name="surname" id="surname" class="form-control" placeholder="Surname" required>
+                                            <input type="text" name="surname" id="surname" class="form-control" placeholder="Surname" pattern="^[A-Za-z?\s\-']{2,50}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email<span style="color:red">*</span></label>
-                                            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                                            <input type="email" name="email" id="email" class="form-control" placeholder="Email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="phone">Phone<span style="color:red">*</span></label>
-                                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone" minlength="10" maxlength="10" required>
+                                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone" minlength="10" maxlength="10" pattern="^0[1-9]\d{8}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="reg-password">Password<span style="color:red">*</span></label>
-                                            <input type="password" name="reg-password" id="reg-password" class="form-control" placeholder="Password" minlength="8" required>
+                                            <input type="password" name="reg-password" id="reg-password" class="form-control" placeholder="Password" minlength="8" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="retype-password">Confirm Password<span style="color:red">*</span></label>
-                                            <input type="password" name="retype-password" id="retype-password" class="form-control" placeholder="Confirm Password" minlength="8" required>
+                                            <input type="password" name="retype-password" id="retype-password" class="form-control" placeholder="Confirm Password" minlength="8" oninput="checkPasswordMatch();" required>
                                         </div>
                                         <div class="row justify-content-between">
                                             <div class="col-md-6">
@@ -369,5 +369,17 @@ if (isset($_POST['login'])) {
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script>
+function checkPasswordMatch() {
+    let password1 = document.getElementById("reg-password").value;
+    let password2 = document.getElementById("retype-password").value;
+
+    if (password1 != password2) {
+        document.getElementById("password2").setCustomValidity("Passwords do not match");
+    } else {
+        document.getElementById("password2").setCustomValidity("");
+    }
+}
+</script>
         
         <?php include('../inc/footer.php'); ?>

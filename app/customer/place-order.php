@@ -55,7 +55,8 @@ function ccMasking($number, $maskingCharacter = 'X')
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/css/style.css">
     <title>Online-cars</title>
 </head>
@@ -65,9 +66,13 @@ function ccMasking($number, $maskingCharacter = 'X')
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand" href="index.php">
-                    <h2>Hi, <em><?php echo $name ?></em></h2>
+                    <h2>Hi, <em>
+                            <?php echo $name ?>
+                        </em></h2>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -109,34 +114,45 @@ function ccMasking($number, $maskingCharacter = 'X')
             <div class="col-lg-6 px-4 pb-4" id="order">
                 <h4 class="text-center text-info p-2">Complete your order!</h4>
                 <div class="jumbotron p-3 mb-2 text-center">
-                    <h6 class="lead"><b>Car : </b><?= $item; ?></h6>
-                    <h6 class="lead"><b>Shipping Costs : </b><?= $shipping; ?></h6>
-                    <h5><b>Total Amount Payable : </b>R<?= number_format($grand_total, 2, ',', ' ') ?></h5>
+                    <h6 class="lead"><b>Car : </b>
+                        <?= $item; ?>
+                    </h6>
+                    <h6 class="lead"><b>Shipping Costs : </b>
+                        <?= $shipping; ?>
+                    </h6>
+                    <h5><b>Total Amount Payable : </b>R
+                        <?= number_format($grand_total, 2, ',', ' ') ?>
+                    </h5>
                 </div>
                 <form action="" method="post" id="placeOrder">
                     <input type="hidden" name="products" value="<?= $item; ?>">
                     <input type="hidden" name="customer_id" value="<?= $customer_id; ?>">
                     <input type="hidden" name="grand_total" value="<?= $grand_total; ?>">
                     <div class="form-group">
-                        <input type="text" name="name" class="form-control" placeholder="Enter name" required>
+                        <input type="text" name="name" class="form-control" placeholder="Enter name"
+                            pattern="^[A-Za-z\s\-']{2,50}$" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+                        <input type="email" name="email" class="form-control" placeholder="Enter email"
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
                     </div>
                     <div class="form-group">
-                        <input type="tel" name="phone" class="form-control" placeholder="Enter phone" minlength="10" maxlength="10" required>
+                        <input type="tel" name="phone" class="form-control" placeholder="Enter phone"
+                            pattern="^0[1-9]\d{8}$" minlength="10" maxlength="10" required>
                     </div>
                     <div class="form-group">
-                        <textarea name="address" class="form-control" rows="3" cols="10" placeholder="Enter delivery address here..." required></textarea>
+                        <textarea name="address" class="form-control" rows="3" cols="10"
+                            pattern="^[A-Za-z0-9'’\-\s,.]{2,50}" placeholder="Enter delivery address here..."
+                            required></textarea>
                     </div>
                     <h6 class="text-center lead">Select Payment Mode</h6>
                     <div class="form-group">
                         <select name="pmode" id="pmode" class="form-control" required>
-                            <option value="" selected disabled>-Select Payment Mode-</option>
+                            <option value="" selected>-Select Payment Mode-</option>
                             <option value="Bank Deposit">Bank Deposit</option>
                             <?php
                             if ($hasCard) {
-                                echo '<option value="Debit/Credit Card">'.$card.'</option>';
+                                echo '<option value="Debit/Credit Card">' . $card . '</option>';
                             } else {
                                 echo '<option value="No card">Debit/Credit Card</option>';
                             }
@@ -152,20 +168,20 @@ function ccMasking($number, $maskingCharacter = 'X')
             </div>
         </div>
     </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             // Sending Form data to the server
-            $("#placeOrder").submit(function(e) {
+            $("#placeOrder").submit(function (e) {
                 e.preventDefault();
                 jQuery.ajax({
                     url: 'checkout.php',
                     method: 'post',
                     data: $('form').serialize() + "&action=order",
-                    success: function(response) {
+                    success: function (response) {
                         let responseData = JSON.parse(response);
                         let error = responseData['error'];
                         let msg = responseData['msg'];
@@ -189,37 +205,41 @@ function ccMasking($number, $maskingCharacter = 'X')
             const value = event.target.value;
 
             if (value === 'No card') {
-                container.innerHTML = `
-                <div class="form-group">
-                    <label for="name-card">Card Holder</label>
-                    <input type="text" class="form-control" id="name-card" name="name-card" placeholder="Card Holder" required>
-                </div>
-                <div class="form-group">
-                    <label for="email-card">Email</label>
-                    <input type="text" class="form-control email" id="email-card" name="email-card" placeholder="Email" required>
-                </div>
-                <div class="form-group">
-                    <label for="card_num">Card Number</label>
-                    <input type="text" class="form-control card-number" id="card_num" name="card_num" placeholder="Card Number" minlength="16" maxlength="16" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="cvc">CVC</label>
-                        <input type="text" class="form-control card-cvc" id="cvc" name="cvc" placeholder="CVC" minlength="3" maxlength="3" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="exp_date">Expiration (MM/YYYY)</label>
-                        <div class="form-row">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control card-expiry-month" id="exp_month" name="exp_month" placeholder="MM" minlength="2" maxlength="2" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control card-expiry-year" id="exp_year" name="exp_year" placeholder="YYYY" minlength="4" maxlength="4"required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+                container.innerHTML = `<div class="form-group">
+    <label for="name-card">Card Holder</label>
+    <input type="text" class="form-control" id="name-card" name="name-card" placeholder="Card Holder"
+        pattern="^[A-Za-z\s\-']{2,50}$" required>
+</div>
+<div class="form-group">
+    <label for="email-card">Email</label>
+    <input type="text" class="form-control" id="email-card" name="email-card" placeholder="Email"
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+</div>
+<div class="form-group">
+    <label for="card-num">Card Number</label>
+    <input type="text" class="form-control" id="card-num" name="card-num" placeholder="Card Number" maxlength="16"
+        minlength="16" required>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="cvc">CVC</label>
+        <input type="text" class="form-control" id="cvc" name="cvc" placeholder="CVC" maxlength="3" minlength="3"
+            required>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="exp-date">Expiration (MM/YYYY)</label>
+        <div class="form-row">
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="exp-month" name="exp-month" placeholder="MM"
+                    pattern="^(0[1-9]|1[0-2])$" minlength="2" maxlength="2" required>
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="exp-year" name="exp-year" placeholder="YYYY"
+                    pattern="^202[3-9]|203\d$" minlength="4" maxlength="4" required>
+            </div>
+        </div>
+    </div>
+</div>`;
             } else {
                 container.innerHTML = '';
             }

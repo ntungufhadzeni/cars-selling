@@ -298,7 +298,7 @@ your account and change your security password as someone may have guessed it.</
                                     <form method="post">
                                         <div class="form-group">
                                             <label for="email">Email<span style="color:red">*</span></label>
-                                            <label for="Email"></label><input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                                            <label for="Email"></label><input type="email" name="email" id="email" class="form-control" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="password-login">Password<span style="color:red">*</span></label>
@@ -345,24 +345,24 @@ your account and change your security password as someone may have guessed it.</
                                     <form method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="name">First Names<span style="color:red">*</span></label>
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="First Names" required>
+                                            <input type="text" name="name" id="name" class="form-control" placeholder="First Names" pattern="^[A-Za-z?\s\-']{2,50}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="surname">Surname<span style="color:red">*</span></label>
-                                            <input type="text" name="surname" id="surname" class="form-control" placeholder="Surname" required>
+                                            <input type="text" name="surname" id="surname" class="form-control" placeholder="Surname" pattern="^[A-Za-z?\s\-']{2,50}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email<span style="color:red">*</span></label>
-                                            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                                            <input type="email" name="email" id="email" class="form-control" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="phone">Phone<span style="color:red">*</span></label>
-                                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone" minlength="10" maxlength="10"  required>
+                                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone" minlength="10" maxlength="10" pattern="^0[1-9]\d{8}$" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="province">Province<span style="color:red">*</span></label>
                                             <select class="form-control" name="province" id="province" required>
-                                                <option value="" class="text-center" disabled>--- Select Province ---</option>
+                                                <option value="" class="text-center">--- Select Province ---</option>
                                                 <option value="Eastern Cape">Eastern Cape</option>
                                                 <option value="Free State">Free State</option>
                                                 <option value="Gauteng">Gauteng</option>
@@ -375,15 +375,15 @@ your account and change your security password as someone may have guessed it.</
                                         </div>
                                         <div class="form-group">
                                             <label for="address">Address<span style="color:red">*</span></label>
-                                            <textarea class="form-control" id="address" name="address" style="resize:none" rows="4" cols="53" required></textarea>
+                                            <textarea class="form-control" id="address" name="address" style="resize:none" rows="3" pattern="^[A-Za-z0-9'’\-\s,.]{2,50}" cols="53" required></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="reg-password">Password<span style="color:red">*</span></label>
-                                            <input type="password" name="reg-password" id="reg-password" class="form-control" placeholder="Password" minlength="8" required>
+                                            <input type="password" name="reg-password" id="reg-password" class="form-control" placeholder="Password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$" minlength="8" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="retype-password">Confirm Password<span style="color:red">*</span></label>
-                                            <input type="password" name="retype-password" id="retype-password" class="form-control" placeholder="Confirm Password" minlength="8" required>
+                                            <input type="password" name="retype-password" id="retype-password" class="form-control" placeholder="Confirm Password" minlength="8" oninput="checkPasswordMatch();" required>
                                         </div>
                                         <div class="row justify-content-between">
                                             <div class="col-md-6">
@@ -484,4 +484,17 @@ your account and change your security password as someone may have guessed it.</
                 }
             }
         </script>
+        <script>
+function checkPasswordMatch() {
+    let password1 = document.getElementById("reg-password").value;
+    let password2 = document.getElementById("retype-password").value;
+
+    if (password1 != password2) {
+        document.getElementById("password2").setCustomValidity("Passwords do not match");
+    } else {
+        document.getElementById("password2").setCustomValidity("");
+    }
+}
+</script>
+
         <?php include('../inc/footer.php'); ?>
