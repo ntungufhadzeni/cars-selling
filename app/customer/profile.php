@@ -237,11 +237,11 @@ function ccMasking($number, $maskingCharacter = 'X')
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="old-password">Old Password</label>
-                            <input type="password" class="form-control" id="old-password" name="old-password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$" placeholder="Old Password" minlength="8" required>
+                            <input type="password" class="form-control" id="old-password" name="old-password"  placeholder="Old Password" minlength="8" required>
                         </div>
                         <div class="form-group">
                             <label for="new-password">New Password</label>
-                            <input type="password" class="form-control email" id="new-password" name="new-password" oninput="checkOldNewPasswordMatch();" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$" placeholder="New Password" minlength="8" required>
+                            <input type="password" class="form-control email" id="new-password" name="new-password" oninput="checkOldNewPasswordMatch();" placeholder="New Password" minlength="8" required>
                         </div>
                         <div class="form-group">
                             <label for="retype-password">Retype New Password</label>
@@ -302,9 +302,9 @@ function checkPasswordMatch() {
     let password2 = document.getElementById("retype-password").value;
 
     if (password1 != password2) {
-        document.getElementById("password2").setCustomValidity("Passwords do not match");
+        document.getElementById("retype-password").setCustomValidity("Passwords do not match");
     } else {
-        document.getElementById("password2").setCustomValidity("");
+        document.getElementById("retype-password").setCustomValidity("");
     }
 }
 </script>
@@ -313,11 +313,17 @@ function checkOldNewPasswordMatch() {
     let password1 = document.getElementById("old-password").value;
     let password2 = document.getElementById("new-password").value;
 
+
     if (password1 != password2) {
-        document.getElementById("password2").setCustomValidity("");
+       if (password2.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$/)) {
+        document.getElementById("new-password").setCustomValidity("");
     } else {
-        document.getElementById("password2").setCustomValidity("Passwords match");
+        document.getElementById("new-password").setCustomValidity("Password must be 8 characters long and include at least 1 uppercase, lowercase, numeric number, special character");
     }
+    } else {
+        document.getElementById("new-password").setCustomValidity("Old and new password match. Enter new password");
+    }
+
 }
 </script>
     <?php include('../inc/footer.php'); ?>

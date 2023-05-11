@@ -297,8 +297,8 @@ your account and change your security password as someone may have guessed it.</
                                 <div class="logo mb-3">
                                     <form method="post">
                                         <div class="form-group">
-                                            <label for="email">Email<span style="color:red">*</span></label>
-                                            <label for="Email"></label><input type="email" name="email" id="email" class="form-control" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" required>
+                                            <label for="email-login">Email<span style="color:red">*</span></label>
+                                            <label for="Email"></label><input type="email" name="email" id="email-login" class="form-control" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="password-login">Password<span style="color:red">*</span></label>
@@ -352,8 +352,8 @@ your account and change your security password as someone may have guessed it.</
                                             <input type="text" name="surname" id="surname" class="form-control" placeholder="Surname" pattern="^[A-Za-z?\s\-']{2,50}$" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="email">Email<span style="color:red">*</span></label>
-                                            <input type="email" name="email" id="email" class="form-control" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" required>
+                                            <label for="email-reg">Email<span style="color:red">*</span></label>
+                                            <input type="email" name="email" id="email-reg" class="form-control" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="phone">Phone<span style="color:red">*</span></label>
@@ -379,7 +379,7 @@ your account and change your security password as someone may have guessed it.</
                                         </div>
                                         <div class="form-group">
                                             <label for="reg-password">Password<span style="color:red">*</span></label>
-                                            <input type="password" name="reg-password" id="reg-password" class="form-control" placeholder="Password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$" minlength="8" required>
+                                            <input type="password" name="reg-password" id="reg-password" class="form-control" placeholder="Password"  minlength="8" oninput="checkPasswordPattern();" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="retype-password">Confirm Password<span style="color:red">*</span></label>
@@ -429,8 +429,8 @@ your account and change your security password as someone may have guessed it.</
                                 <div class="logo mb-3">
                                     <form method="post">
                                         <div class="form-group">
-                                            <label for="email">Email<span style="color:red">*</span></label>
-                                            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                                            <label for="email-reset">Email<span style="color:red">*</span></label>
+                                            <input type="email" name="email" id="email-reset" class="form-control" placeholder="Email" required>
                                         </div>
                                         <div class="row justify-content-center">
                                             <div class="col-md-6">
@@ -490,9 +490,20 @@ function checkPasswordMatch() {
     let password2 = document.getElementById("retype-password").value;
 
     if (password1 != password2) {
-        document.getElementById("password2").setCustomValidity("Passwords do not match");
+        document.getElementById("retype-password").setCustomValidity("Passwords do not match");
     } else {
-        document.getElementById("password2").setCustomValidity("");
+        document.getElementById("retype-password").setCustomValidity("");
+    }
+}
+</script>
+<script>
+function checkPasswordPattern() {
+    let password = document.getElementById("reg-password").value;
+
+    if (password.match(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$&*~]).{8,}$/)) {
+        document.getElementById("reg-password").setCustomValidity("");
+    } else {
+        document.getElementById("reg-password").setCustomValidity("Password must be 8 characters long and include at least 1 uppercase, lowercase, numeric number, special character");
     }
 }
 </script>
