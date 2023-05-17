@@ -29,6 +29,8 @@ if (isset($_POST['login'])) {
                         $_SESSION['customer_id'] = $row['id'];
                         $_SESSION['customer_name'] = $row['first_name'];
                         $_SESSION['customer_email'] = $row['email'];
+                        $sql = "UPDATE customer SET last_login = now()";
+                        mysqli_query($conn, $sql);
                         header('location: index.php');
                     } else {
                         $error_login = true;

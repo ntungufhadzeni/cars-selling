@@ -97,6 +97,9 @@ $result = mysqli_query($conn, $sql);
                         Address
                     </th>
                     <th>
+                        Last Login
+                    </th>
+                    <th>
                         User Status
                     </th>
                     <th>
@@ -128,6 +131,9 @@ $result = mysqli_query($conn, $sql);
                         </td>
                         <td>
                             <?php echo ($row['address']); ?>
+                        </td>
+                        <td>
+                            <?php echo ($row['last_login']); ?>
                         </td>
                         <td>
                             <?php
