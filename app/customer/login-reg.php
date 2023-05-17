@@ -2,6 +2,8 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+date_default_timezone_set('Africa/Johannesburg');
+
 require '../vendor/autoload.php';
 
 session_start();
@@ -29,7 +31,8 @@ if (isset($_POST['login'])) {
                         $_SESSION['customer_id'] = $row['id'];
                         $_SESSION['customer_name'] = $row['first_name'];
                         $_SESSION['customer_email'] = $row['email'];
-                        $sql = "UPDATE customer SET last_login = now()";
+                        $now = date('Y-m-d H:i:s', time());
+                        $sql = "UPDATE customer SET last_login = '$now'";
                         mysqli_query($conn, $sql);
                         header('location: index.php');
                     } else {
