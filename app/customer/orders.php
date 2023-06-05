@@ -7,7 +7,7 @@ if (isset($_SESSION['customer_name']) && isset($_SESSION['customer_id'])) {
     $name = $_SESSION['customer_name'];
     $id = $_SESSION['customer_id'];
 
-    $sql = "SELECT id, car, grand_total, customer, email, phone, shipping_address, payment_method, ";
+    $sql = "SELECT id, car_id,shipping_name,shipping_email,shipping_phone,shipping_address,payment_method,";
     $sql .= "DATE_FORMAT(date_created,'%d-%b-%Y') as date, customer_id ";
     $sql .= "FROM orders ";
     $sql .= "WHERE customer_id = '" . $id . "'";
@@ -115,13 +115,26 @@ if (isset($_SESSION['customer_name']) && isset($_SESSION['customer_id'])) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $order_number = $row['id'];
                 $date = $row['date'];
-                $customer = $row['customer'];
-                $car = $row['car'];
+                $customer = $row['shipping_name'];
+                $car_id = $row['car_id'];
                 $address = $row['shipping_address'];
-                $price = $row['grand_total'];
                 $payment_method = $row['payment_method'];
-                $phone = $row['phone'];
-                $email = $row['email'];
+                $phone = $row['shipping_phone'];
+                $email = $row['shipping_email'];
+
+                $sqlCar = "SELECT CONCAT(maker, ' ', model) AS item, price, currency FROM car WHERE id='" . $car_id . "'";
+                $resultCar = mysqli_query($conn, $sqlCar);
+                $rowCar = mysqli_fetch_assoc($resultCar);
+                $price = $rowCar['price'];
+                $car = $rowCar['item'];
+
+                if ($rowCar['currency'] != 'R') {
+                    $shipping = 'R10 000,00';
+                    $grand_total = 10000 + (int) $price * 18.09;
+                } else {
+                    $shipping = 'R0,00';
+                    $grand_total = (int) $price;
+                }
 
             ?>
                 <tr>
@@ -138,7 +151,7 @@ if (isset($_SESSION['customer_name']) && isset($_SESSION['customer_id'])) {
                         <?php echo ($car); ?>
                     </td>
                     <td>
-                        R <?php echo (number_format($price, 2, ',', ' ')); ?>
+                        R <?php echo (number_format($grand_total, 2, ',', ' ')); ?>
                     </td>
                     <td>
                         <?php echo ($address); ?>

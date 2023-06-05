@@ -6,7 +6,8 @@ if (isset($_POST['action']) == 'order') {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $car = $_POST['products'];
+    $car_id = $_POST['car_id'];
+    $car_name = $_POST['car_name'];
     $grand_total = (int) $_POST['grand_total'];
     $address = $_POST['address'];
     $pmode = $_POST['pmode'];
@@ -22,15 +23,15 @@ if (isset($_POST['action']) == 'order') {
                 if (preg_match("/^[A-Za-z\s\-']{2,50}$/", $name)) {
 
                     if ($pmode == "Bank Deposit") {
-                        $sql = "INSERT INTO orders (car,customer,email,phone,shipping_address,payment_method,grand_total,customer_id)";
-                        $sql .= " VALUES('$car','$name','$email','$phone','$address','$pmode','$grand_total', '$customer_id')";
+                        $sql = "INSERT INTO orders (car_id,shipping_name,shipping_email,shipping_phone,shipping_address,payment_method,customer_id)";
+                        $sql .= " VALUES('$car_id','$name','$email','$phone','$address','$pmode','$customer_id')";
                         mysqli_query($conn, $sql);
                         $error = false;
                         $msg .= '<div class="text-center">
 								<h1 class="display-4 mt-2 text-danger">Thank You!</h1>
 								<h2 class="text-success">Your Order Placed Successfully!</h2>
 								<h4 class="text-success">Your car will be shipped as soon as receive the funds.</h4>
-								<h4 class="bg-danger text-light rounded p-2">Car Purchased : ' . $car . '</h4>
+								<h4 class="bg-danger text-light rounded p-2">Car Purchased : ' . $car_name . '</h4>
 								<h4>Your name : ' . $name . '</h4>
 								<h4>Your email : ' . $email . '</h4>
 								<h4>Your phone : ' . $phone . '</h4>
@@ -47,15 +48,15 @@ if (isset($_POST['action']) == 'order') {
                         }
 
                         if ($pmode == "Debit/Credit Card") {
-                            $sql = "INSERT INTO orders (car,customer,email,phone,shipping_address,payment_method,grand_total,customer_id)";
-                            $sql .= " VALUES('$car','$name','$email','$phone','$address','$pmode','$grand_total', '$customer_id')";
+                            $sql = "INSERT INTO orders (car_id,shipping_name,shipping_email,shipping_phone,shipping_address,payment_method,customer_id)";
+                            $sql .= " VALUES('$car_id','$name','$email','$phone','$address','$pmode','$customer_id')";
                             mysqli_query($conn, $sql);
                             $error = false;
                             $msg .= '<div class="text-center">
 								<h1 class="display-4 mt-2 text-danger">Thank You!</h1>
 								<h2 class="text-success">Your Order Placed Successfully!</h2>
 								<h4 class="text-success">Your car will be shipped to the address your provided.</h4>
-								<h4 class="bg-danger text-light rounded p-2">Car Purchased : ' . $car . '</h4>
+								<h4 class="bg-danger text-light rounded p-2">Car Purchased : ' . $car_name . '</h4>
 								<h4>Your name : ' . $name . '</h4>
 								<h4>Your email : ' . $email . '</h4>
 								<h4>Your phone : ' . $phone . '</h4>

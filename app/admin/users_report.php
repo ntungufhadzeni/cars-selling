@@ -22,7 +22,7 @@ $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(6, 12, 'ID', 1);
 $pdf->Cell(25, 12, 'First Name', 1);
 $pdf->Cell(25, 12, 'Last Name', 1);
-$pdf->Cell(22, 12, 'Phone', 1);
+$pdf->Cell(18, 12, 'Phone', 1);
 $pdf->Cell(50, 12, 'Email', 1);
 $pdf->Cell(55, 12, 'Address', 1);
 $pdf->Cell(13, 12, 'Status', 1);
@@ -35,7 +35,7 @@ foreach ($result as $row) {
     $pdf->Cell(6, 12, $row['id'], 1);
     $pdf->Cell(25, 12, $row['first_name'], 1);
     $pdf->Cell(25, 12, $row['surname'], 1);
-    $pdf->Cell(22, 12, $row['phone'], 1);
+    $pdf->Cell(18, 12, $row['phone'], 1);
     $pdf->Cell(50, 12, $row['email'], 1);
     $pdf->Cell(55, 12, $row['address'], 1);
     $pdf->Cell(13, 12, $row['status'], 1);

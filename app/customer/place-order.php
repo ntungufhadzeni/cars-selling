@@ -35,9 +35,9 @@ if (isset($_SESSION['customer_name'])) {
     header('location: login-reg.php');
 }
 
-$id = $_GET['id'];
+$car_id = $_GET['id'];
 
-$sql = "SELECT CONCAT(maker, ' ', model) AS item, price, currency FROM car WHERE id='" . $id . "'";
+$sql = "SELECT CONCAT(maker, ' ', model) AS item, price, currency FROM car WHERE id='" . $car_id . "'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 $price = $row['price'];
@@ -134,9 +134,10 @@ function ccMasking($number, $maskingCharacter = 'X')
                     </h5>
                 </div>
                 <form action="" method="post" id="placeOrder">
-                    <input type="hidden" name="products" value="<?= $item; ?>">
+                    <input type="hidden" name="car_id" value="<?= $car_id; ?>">
                     <input type="hidden" name="customer_id" value="<?= $customer_id; ?>">
                     <input type="hidden" name="grand_total" value="<?= $grand_total; ?>">
+                    <input type="hidden" name="car_name" value="<?= $item; ?>">
                     <div class="form-group">
                         <input type="text" name="name" class="form-control" placeholder="Enter name"
                             pattern="^[A-Za-z\s\-']{2,50}$" value="<?= $name; ?>" required>
@@ -186,7 +187,7 @@ function ccMasking($number, $maskingCharacter = 'X')
             // Sending Form data to the server
             $("#placeOrder").submit(function (e) {
                 e.preventDefault();
-                jQuery.ajax({
+                $.ajax({
                     url: 'checkout.php',
                     method: 'post',
                     data: $('form').serialize() + "&action=order",
