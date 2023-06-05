@@ -9,6 +9,8 @@ if (isset($_SESSION['customer_name'])) {
     $customer_sql = "SELECT * FROM customer WHERE id='$id'";
     $customer_result = mysqli_query($conn, $customer_sql);
     $customer = mysqli_fetch_assoc($customer_result);
+    $cname = $customer['first_name'] . ' ' . $customer['surname'];
+    $cemail = $customer['email'];
     $sql = "SELECT * FROM debit_card where customer_id='$id'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
@@ -185,11 +187,11 @@ function ccMasking($number, $maskingCharacter = 'X')
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Card Holder</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Card Holder" pattern="^[A-Za-z\s\-']{2,50}$" required>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Card Holder" pattern="^[A-Za-z\s\-']{2,50}$" value="<?= $cname; ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control email" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" required>
+                            <input type="text" class="form-control email" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" placeholder="Email" value="<?= $cemail; ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="card_num">Card Number</label>

@@ -22,6 +22,15 @@ if (isset($_SESSION['customer_name'])) {
     } else {
         $hasCard = false;
     }
+
+    $sqlUser = "SELECT * FROM customer where id='$customer_id'";
+    $resultUser = mysqli_query($conn, $sqlUser);
+    $rowUser = mysqli_fetch_assoc($resultUser);
+    $name = $rowUser['first_name'] . ' ' . $rowUser['surname'];
+    $email = $rowUser['email'];
+    $address = trim($rowUser['address'],"");
+    $phone = $rowUser['phone'];
+
 } else {
     header('location: login-reg.php');
 }
@@ -130,20 +139,20 @@ function ccMasking($number, $maskingCharacter = 'X')
                     <input type="hidden" name="grand_total" value="<?= $grand_total; ?>">
                     <div class="form-group">
                         <input type="text" name="name" class="form-control" placeholder="Enter name"
-                            pattern="^[A-Za-z\s\-']{2,50}$" required>
+                            pattern="^[A-Za-z\s\-']{2,50}$" value="<?= $name; ?>" required>
                     </div>
                     <div class="form-group">
                         <input type="email" name="email" class="form-control" placeholder="Enter email"
-                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" value="<?= $email; ?>" required>
                     </div>
                     <div class="form-group">
                         <input type="tel" name="phone" class="form-control" placeholder="Enter phone"
-                            pattern="^0[1-9]\d{8}$" minlength="10" maxlength="10" required>
+                            pattern="^0[1-9]\d{8}$" minlength="10" maxlength="10" value="<?= $phone; ?>" required>
                     </div>
                     <div class="form-group">
-                        <textarea name="address" class="form-control" rows="3" cols="10"
-                            pattern="^[A-Za-z0-9'’\-\s,.]{2,50}" placeholder="Enter delivery address here..."
-                            required></textarea>
+                        <textarea name="address" class="form-control" rows="3" cols="10" pattern="^[A-Za-z0-9'’\-\s,.]{2,50}" placeholder="Enter delivery address here..." required>
+                            <?php echo $address; ?>
+                        </textarea>
                     </div>
                     <h6 class="text-center lead">Select Payment Mode</h6>
                     <div class="form-group">
@@ -208,12 +217,12 @@ function ccMasking($number, $maskingCharacter = 'X')
                 container.innerHTML = `<div class="form-group">
     <label for="name-card">Card Holder</label>
     <input type="text" class="form-control" id="name-card" name="name-card" placeholder="Card Holder"
-        pattern="^[A-Za-z\s\-']{2,50}$" required>
+        pattern="^[A-Za-z\s\-']{2,50}$" value="<?= $name; ?>" required>
 </div>
 <div class="form-group">
     <label for="email-card">Email</label>
     <input type="text" class="form-control" id="email-card" name="email-card" placeholder="Email"
-        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" value="<?= $email; ?>" required>
 </div>
 <div class="form-group">
     <label for="card-num">Card Number</label>
