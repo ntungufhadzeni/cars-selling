@@ -74,21 +74,28 @@ $result = mysqli_query($conn, $sql);
     </div>
     <div style="margin-bottom: 50px;"></div>
     <div class="container" style=" margin-top:90px;">
-        <div>
-            <div class="row">
-                <div class=" col-md-10"> 
-                    <h1>Customers</h1>
-                </div>
-                <div class=" col-md-2">
-                    <form class="form-inline" method="post" action="users_report.php">
-                        <button type="submit" id="pdf" name="generate_pdf" class="btn btn-primary"><i class="fa fa-pdf" "="" aria-hidden="true"></i>
-                            Generate PDF
-                        </button>
-                    </form>
-                </div>
-            </div>
-
+    <div class="row">
+        <div class="col-md-10"> 
+            <h1>Customers</h1>
         </div>
+        <div class="col-md-2">
+            <form class="form-inline" method="post" action="users-report.php">
+                <button type="submit" id="pdf" name="generate-pdf" class="btn btn-primary">
+                    <i class="fa fa-pdf" aria-hidden="true"></i>
+                    Generate PDF
+                </button>
+            </form>
+            <br>
+            <form class="form-inline" method="post" action="users-csv.php">
+                <button type="submit" id="csv" name="generate-csv" class="btn btn-primary">
+                    <i class="fa fa-file-text" aria-hidden="true"></i>
+                    Generate CSV
+                </button>
+            </form>
+            <br>
+        </div>
+    </div>
+
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -118,6 +125,9 @@ $result = mysqli_query($conn, $sql);
                     </th>
                     <th>
                         Action
+                    </th>
+                    <th>
+                        Delete
                     </th>
                 </tr>
             </thead>
@@ -167,6 +177,9 @@ $result = mysqli_query($conn, $sql);
                                 echo ('<a href="activate-customer.php?id=' . $id . '"><button class="btn btn-primary">Activate</button></a>');
                             }
                             ?>
+                        </td>
+                        <td>
+                           <?php echo ('<a href="delete-customer.php?id=' . $id . '"><button class="btn btn-danger">Delete</button></a>'); ?>
                         </td>
                     </tr>
             <?php

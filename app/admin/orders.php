@@ -68,17 +68,26 @@ if (isset($_SESSION['admin_name'])) {
     <div style="margin-bottom: 80px;"></div>
     <div class="container" style="min-height:500px;">
         <div class="row">
-                <div class=" col-md-10"> 
-                    <h1>Orders</h1>
-                </div>
-                <div class=" col-md-2">
-                    <form class="form-inline" method="post" action="orders_report.php">
-                        <button type="submit" id="pdf" name="generate_pdf" class="btn btn-primary"><i class="fa fa-pdf" "="" aria-hidden="true"></i>
-                            Generate PDF
-                        </button>
-                    </form>
-                </div>
+        <div class="col-md-10"> 
+            <h1>Orders</h1>
         </div>
+        <div class="col-md-2">
+            <form class="form-inline" method="post" action="orders-report.php">
+                <button type="submit" id="pdf" name="generate-pdf" class="btn btn-primary">
+                    <i class="fa fa-pdf" aria-hidden="true"></i>
+                    Generate PDF
+                </button>
+            </form>
+            <br>
+            <form class="form-inline" method="post" action="orders-csv.php">
+                <button type="submit" id="csv" name="generate-csv" class="btn btn-primary">
+                    <i class="fa fa-file-text" aria-hidden="true"></i>
+                    Generate CSV
+                </button>
+            </form>
+            <br>
+        </div>
+    </div>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
